@@ -1,11 +1,15 @@
+# Temporal Cortex MCP
+
+[![CI](https://github.com/billylui/temporal-cortex-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/billylui/temporal-cortex-mcp/actions/workflows/ci.yml)
 [![npm version](https://img.shields.io/npm/v/@temporal-cortex/cortex-mcp)](https://www.npmjs.com/package/@temporal-cortex/cortex-mcp)
 [![npm downloads](https://img.shields.io/npm/dm/@temporal-cortex/cortex-mcp)](https://www.npmjs.com/package/@temporal-cortex/cortex-mcp)
 [![Smithery](https://smithery.ai/badge/@temporal-cortex/cortex-mcp)](https://smithery.ai/server/@temporal-cortex/cortex-mcp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-# temporal-cortex-mcp
-
 **The only Calendar MCP server with atomic booking and conflict prevention.**
+
+<a href="https://insiders.vscode.dev/redirect/mcp/install?name=temporal-cortex-mcp&inputs=%7B%22google_client_id%22%3A%22%22%2C%22google_client_secret%22%3A%22%22%7D&config=%7B%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22%40temporal-cortex%2Fcortex-mcp%22%5D%2C%22env%22%3A%7B%22GOOGLE_CLIENT_ID%22%3A%22%24%7Binput%3Agoogle_client_id%7D%22%2C%22GOOGLE_CLIENT_SECRET%22%3A%22%24%7Binput%3Agoogle_client_secret%7D%22%7D%7D"><img src="https://img.shields.io/badge/VS_Code-Install_MCP_Server-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white" alt="Install in VS Code"></a>
+<a href="https://cursor.com/install-mcp?name=temporal-cortex&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIkB0ZW1wb3JhbC1jb3J0ZXgvY29ydGV4LW1jcCJdLCJlbnYiOnsiR09PR0xFX0NMSUVOVF9JRCI6InlvdXItY2xpZW50LWlkLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiR09PR0xFX0NMSUVOVF9TRUNSRVQiOiJ5b3VyLWNsaWVudC1zZWNyZXQifX0%3D"><img src="https://img.shields.io/badge/Cursor-Install_MCP_Server-black?style=flat-square&logo=cursor&logoColor=white" alt="Install in Cursor"></a>
 
 ## The Problem
 
@@ -19,6 +23,12 @@ LLMs get date and time tasks wrong roughly 60% of the time ([AuthenHallu benchma
 - **Computed availability** — Merges free/busy data across multiple calendars into a single unified view. The AI sees actual availability, not a raw dump of events to misinterpret.
 - **Deterministic RRULE expansion** — Handles DST transitions, `BYSETPOS=-1` (last weekday of month), `EXDATE` with timezones, leap year recurrences, and `INTERVAL>1` with `BYDAY`. Powered by [Truth Engine](https://github.com/billylui/temporal-cortex-core), not LLM inference.
 - **Token-efficient output** — TOON format compresses calendar data to ~40% fewer tokens than standard JSON, reducing costs and context window usage.
+
+## Prerequisites
+
+- **Node.js 18+** (for `npx` to download and run the binary)
+- **Google account** with Google Calendar
+- **Google OAuth credentials** — [setup guide](docs/google-cloud-setup.md)
 
 ## Quick Start
 
@@ -97,14 +107,14 @@ After authentication, verify it works by asking your AI assistant: *"What meetin
 
 ## Available Tools
 
-| Tool | Description | What Makes It Different |
-|------|-------------|------------------------|
-| `list_events` | List calendar events in a time range | Output in TOON format (~40% fewer tokens) or JSON |
-| `find_free_slots` | Find available time slots in a calendar | Computes actual gaps between events, not just event data |
-| `book_slot` | Book a calendar slot safely | Lock → verify → write with Two-Phase Commit. No double-bookings. |
-| `expand_rrule` | Expand a recurrence rule into concrete instances | Deterministic: handles DST, BYSETPOS, leap years, EXDATE |
-| `check_availability` | Check if a specific time slot is available | Verifies against both events and active booking locks |
-| `get_availability` | Unified availability across multiple calendars | Merges busy/free data with privacy controls (opaque/full) |
+| Tool | Type | Description | What Makes It Different |
+|------|------|-------------|------------------------|
+| `list_events` | read | List calendar events in a time range | Output in TOON format (~40% fewer tokens) or JSON |
+| `find_free_slots` | read | Find available time slots in a calendar | Computes actual gaps between events, not just event data |
+| `book_slot` | **write** | Book a calendar slot safely | Lock → verify → write with Two-Phase Commit. No double-bookings. |
+| `expand_rrule` | read | Expand a recurrence rule into concrete instances | Deterministic: handles DST, BYSETPOS, leap years, EXDATE |
+| `check_availability` | read | Check if a specific time slot is available | Verifies against both events and active booking locks |
+| `get_availability` | read | Unified availability across multiple calendars | Merges busy/free data with privacy controls (opaque/full) |
 
 See [docs/tools.md](docs/tools.md) for full input/output schemas and usage examples.
 
@@ -170,6 +180,17 @@ Mode is auto-detected — there is no configuration flag.
 \* Either `GOOGLE_CLIENT_ID` + `GOOGLE_CLIENT_SECRET`, or `GOOGLE_OAUTH_CREDENTIALS` must be set.
 
 See [docs/google-cloud-setup.md](docs/google-cloud-setup.md) for a complete setup guide.
+
+## Troubleshooting
+
+| Problem | Solution |
+|---------|----------|
+| "No credentials found" | Run `npx @temporal-cortex/cortex-mcp auth` to authenticate with Google |
+| OAuth error / "Access blocked" | Verify `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` are correct. Ensure the OAuth consent screen is configured in [Google Cloud Console](https://console.cloud.google.com/apis/credentials/consent). |
+| Port 8085 already in use | Set `OAUTH_REDIRECT_PORT` to a different port (e.g., `8086`) |
+| Server not appearing in MCP client | Ensure Node.js 18+ is installed (`node --version`). Check your MCP client's logs for errors. |
+
+See [docs/google-cloud-setup.md](docs/google-cloud-setup.md) for detailed OAuth troubleshooting.
 
 ## Going to Production?
 
