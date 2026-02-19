@@ -1,0 +1,13 @@
+# Default owners for everything in the repo
+* @billylui
+
+# Documentation
+/docs/ @billylui
+
+# MCP directory configs
+/smithery.yaml @billylui
+/glama.json @billylui
+/.mcp/ @billylui
+
+# CI/CD
+/.github/ @billylui

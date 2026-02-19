@@ -1,0 +1,18 @@
+# Temporal Cortex MCP — Git Attributes
+# Ensure consistent line endings and diff behavior across platforms.
+
+# Default: auto-detect text files and normalize line endings to LF
+* text=auto eol=lf
+
+# Documentation
+*.md text eol=lf diff=markdown
+*.txt text eol=lf
+LICENSE text eol=lf
+
+# Config
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+
+# Binary files (never normalize)
+*.png binary
