@@ -4,6 +4,8 @@ Complete reference for the 6 MCP tools provided by `@temporal-cortex/cortex-mcp`
 
 All datetime parameters use [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339) format (e.g., `2026-03-15T14:00:00Z` or `2026-03-15T10:00:00-04:00`).
 
+These tools are available over both **stdio** (default) and **streamable HTTP** transports. Set `HTTP_PORT` to enable HTTP mode. See the main [README](../README.md) for transport configuration.
+
 ## Tool Annotations
 
 [MCP tool annotations](https://modelcontextprotocol.io/specification/2025-03-26/server/tools#annotations) describe the behavior profile of each tool, helping clients make informed decisions about tool approval and safety.

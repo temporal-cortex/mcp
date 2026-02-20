@@ -152,11 +152,23 @@ Truth Engine handles all of these deterministically using the [RFC 5545](https:/
 
 ## How It Works
 
-The MCP server is a single Rust binary distributed via npm. It runs locally on your machine and communicates with MCP clients over stdio (standard input/output).
+The MCP server is a single Rust binary distributed via npm. It runs locally on your machine and communicates with MCP clients over stdio (standard input/output) or streamable HTTP.
 
 - **Truth Engine** handles all date/time computation: RRULE expansion, availability merging, conflict detection. Deterministic, not inference-based.
 - **TOON** (Token-Oriented Object Notation) compresses calendar data for LLM consumption — fewer tokens, same information.
 - **Two-Phase Commit** ensures booking safety: acquire lock, verify the slot is free, write the event, release lock. If any step fails, everything rolls back.
+
+### Stdio vs HTTP Transport
+
+Transport mode is auto-detected — set `HTTP_PORT` to switch from stdio to HTTP.
+
+- **Stdio** (default): Standard MCP transport for local clients (Claude Desktop, VS Code, Cursor). The server reads/writes JSON-RPC messages over stdin/stdout.
+- **HTTP** (when `HTTP_PORT` is set): Streamable HTTP transport per MCP 2025-11-25 spec. The server listens on `http://{HTTP_HOST}:{HTTP_PORT}/mcp` with SSE streaming, session management (`Mcp-Session-Id` header), and Origin validation. Requests with an invalid `Origin` header are rejected with HTTP 403.
+
+```bash
+# HTTP mode example
+HTTP_PORT=8009 npx @temporal-cortex/cortex-mcp
+```
 
 ### Lite Mode vs Full Mode
 
@@ -176,6 +188,9 @@ Mode is auto-detected — there is no configuration flag.
 | `TENANT_ID` | No | auto-generated | UUID for tenant isolation |
 | `LOCK_TTL_SECS` | No | `30` | Lock time-to-live in seconds |
 | `OAUTH_REDIRECT_PORT` | No | `8085` | Port for the local OAuth callback server |
+| `HTTP_PORT` | No | — | Port for HTTP transport. When set, enables streamable HTTP mode instead of stdio. |
+| `HTTP_HOST` | No | `127.0.0.1` | Bind address for HTTP transport. Use `0.0.0.0` only behind a reverse proxy. |
+| `ALLOWED_ORIGINS` | No | — | Comma-separated allowed Origin headers for HTTP mode (e.g., `http://localhost:3000`). All cross-origin requests rejected if unset. |
 
 \* Either `GOOGLE_CLIENT_ID` + `GOOGLE_CLIENT_SECRET`, or `GOOGLE_OAUTH_CREDENTIALS` must be set.
 

@@ -48,6 +48,25 @@
           "isRequired": false,
           "isSecret": false,
           "default": "8085"
+        },
+        {
+          "name": "HTTP_PORT",
+          "description": "Port for HTTP transport. When set, enables streamable HTTP mode instead of stdio.",
+          "isRequired": false,
+          "isSecret": false
+        },
+        {
+          "name": "HTTP_HOST",
+          "description": "Bind address for HTTP transport (default: 127.0.0.1)",
+          "isRequired": false,
+          "isSecret": false,
+          "default": "127.0.0.1"
+        },
+        {
+          "name": "ALLOWED_ORIGINS",
+          "description": "Comma-separated allowed Origin headers for HTTP mode. Cross-origin requests rejected if unset.",
+          "isRequired": false,
+          "isSecret": false
         }
       ]
     }
