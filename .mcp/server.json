@@ -1,7 +1,7 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json",
   "name": "io.github.billylui/temporal-cortex-mcp",
-  "description": "Calendar MCP server with temporal awareness, atomic booking, conflict prevention, and deterministic computation. 11 tools across 4 layers: temporal context, calendar operations, availability, and booking.",
+  "description": "11 deterministic calendar tools — temporal context, scheduling, availability, and booking",
   "title": "Temporal Cortex Calendar MCP",
   "repository": {
     "url": "https://github.com/billylui/temporal-cortex-mcp",
