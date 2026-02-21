@@ -250,20 +250,6 @@ The open-source MCP server gives you full calendar intelligence for your agent. 
 **Enterprise** — Self-hosted platform deployment, SSO/SAML, audit log export, data residency, and compliance documentation.
 → [Contact us](https://tally.so/r/aQ66W2)
 
-## Comparison with Alternatives
-
-| Feature | temporal-cortex-mcp | temporal-awareness-mcp | google-calendar-mcp (nspady) | calendar-mcp (rauf543) |
-|---------|:-------------------:|:----------------------:|:----------------------------:|:----------------------:|
-| Temporal context (time/timezone) | Yes (5 tools) | Yes (1 tool) | No | No |
-| Human expression parsing | Yes (`"next Tuesday at 2pm"`) | No | No | No |
-| Double-booking prevention (2PC) | Yes | No | No | No |
-| Deterministic RRULE expansion | Yes | No | No | Partial |
-| Multi-calendar availability merge | Yes | No | No | No |
-| Prompt injection firewall | Yes | No | No | No |
-| TOON token compression | Yes | No | No | No |
-| Multi-provider (Google + Outlook) | Yes | No | No | Yes |
-| Price | Free | Free | Free | Free |
-
 ## Built on Temporal Cortex Core
 
 The computation layer is open source:

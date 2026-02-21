@@ -10,7 +10,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Replaced "Going to Production?" section with tiered "Ready for More?" CTA (no pricing amounts)
 - Updated free tier description: 3 connected calendars, 50 bookings/month, all 11 tools
-- Changed comparison table price cell from "Free (Lite)" to "Free"
+
+### Removed
+- Removed "Comparison with Alternatives" table
 
 ## [0.2.1] - 2026-02-20
 
