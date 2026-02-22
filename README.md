@@ -277,6 +277,17 @@ The open-source MCP server gives you full multi-calendar intelligence: connect G
 **Enterprise** — Self-hosted platform deployment, SSO/SAML, audit log export, data residency, and compliance documentation.
 → [Contact us](https://tally.so/r/aQ66W2)
 
+## Agent Skill
+
+The **[calendar-scheduling](https://github.com/billylui/temporal-cortex-skill)** Agent Skill teaches AI agents the correct workflow for using these tools — from temporal orientation through conflict-free booking. Install it to give your agent procedural knowledge for calendar operations:
+
+```bash
+# Claude Code
+cp -r temporal-cortex-skill/calendar-scheduling ~/.claude/skills/
+```
+
+The skill follows the [Agent Skills specification](https://agentskills.io/specification) and works with Claude Code, OpenAI Codex, Google Gemini, GitHub Copilot, Cursor, and 20+ other platforms.
+
 ## Built on Temporal Cortex Core
 
 The computation layer is open source:
