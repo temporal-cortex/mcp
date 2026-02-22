@@ -264,6 +264,18 @@ At least one calendar provider must be configured. See [docs/google-cloud-setup.
 
 See [docs/google-cloud-setup.md](docs/google-cloud-setup.md) for detailed Google OAuth troubleshooting.
 
+## Telemetry
+
+Temporal Cortex collects anonymous tool usage data to help improve the product.
+
+**Collected:** tool names, success/error status, platform, version. **Not collected:** calendar data, event content, personal information.
+
+On first run, an interactive prompt asks for opt-in consent (default: off). Non-interactive sessions auto-opt-out. Disable anytime:
+
+```bash
+export TEMPORAL_CORTEX_TELEMETRY=off
+```
+
 ## Ready for More?
 
 The open-source MCP server gives you full multi-calendar intelligence: connect Google, Outlook, and CalDAV simultaneously, with unified availability merging and conflict-free booking. When you're ready for more:

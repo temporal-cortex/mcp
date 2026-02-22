@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.1] - 2026-02-22
+
+### Added
+- Anonymous telemetry with first-run opt-in consent — collects tool names, success/error status, platform, and version only
+- `TEMPORAL_CORTEX_TELEMETRY` env var (`off`/`on`) to control telemetry without editing config files
+- Consent prompt during `cortex-mcp auth` setup flows
+
 ## [0.3.0] - 2026-02-22
 
 ### Added
