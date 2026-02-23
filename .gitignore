@@ -18,3 +18,9 @@ node_modules/
 
 # Logs
 *.log
+
+# Claude Code (personal config)
+CLAUDE.local.md
+.claude/CLAUDE.md
+.claude/settings.local.json
+.claude/*.local.json
