@@ -28,6 +28,19 @@ startCommand:
         title: Lock TTL (seconds)
         description: Lock timeout in seconds (default 30)
         default: 30
+      microsoft_client_id:
+        type: string
+        title: Microsoft Client ID
+        description: Azure AD application (client) ID for Outlook calendar access
+      microsoft_client_secret:
+        type: string
+        title: Microsoft Client Secret
+        description: Azure AD client secret for Outlook calendar access
+      week_start:
+        type: string
+        title: Week Start
+        description: "Week start day: 'monday' (default) or 'sunday'"
+        default: monday
       oauth_redirect_port:
         type: number
         title: OAuth Redirect Port
@@ -39,11 +52,14 @@ startCommand:
   commandFunction: |-
     (config) => ({
       command: 'npx',
-      args: ['-y', '@temporal-cortex/cortex-mcp'],
+      args: ['-y', '@temporal-cortex/cortex-mcp@0.3.4'],
       env: {
         GOOGLE_CLIENT_ID: config.google_client_id,
         GOOGLE_CLIENT_SECRET: config.google_client_secret,
         ...(config.timezone && { TIMEZONE: config.timezone }),
+        ...(config.microsoft_client_id && { MICROSOFT_CLIENT_ID: config.microsoft_client_id }),
+        ...(config.microsoft_client_secret && { MICROSOFT_CLIENT_SECRET: config.microsoft_client_secret }),
+        ...(config.week_start && { WEEK_START: config.week_start }),
         ...(config.tenant_id && { TENANT_ID: config.tenant_id }),
         ...(config.lock_ttl_secs && { LOCK_TTL_SECS: String(config.lock_ttl_secs) }),
         ...(config.oauth_redirect_port && { OAUTH_REDIRECT_PORT: String(config.oauth_redirect_port) }),

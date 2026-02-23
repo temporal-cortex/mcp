@@ -7,12 +7,12 @@
     "url": "https://github.com/billylui/temporal-cortex-mcp",
     "source": "github"
   },
-  "version": "0.3.3",
+  "version": "0.3.4",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "@temporal-cortex/cortex-mcp",
-      "version": "0.3.3",
+      "version": "0.3.4",
       "transport": {
         "type": "stdio"
       },
@@ -30,10 +30,22 @@
           "isSecret": true
         },
         {
+          "name": "GOOGLE_OAUTH_CREDENTIALS",
+          "description": "Path to Google OAuth JSON credentials file (alternative to CLIENT_ID + SECRET)",
+          "isRequired": false,
+          "isSecret": false
+        },
+        {
           "name": "MICROSOFT_CLIENT_ID",
           "description": "Azure AD app ID (required for Outlook Calendar)",
           "isRequired": false,
           "isSecret": false
+        },
+        {
+          "name": "MICROSOFT_CLIENT_SECRET",
+          "description": "Azure AD client secret (required for Outlook Calendar)",
+          "isRequired": false,
+          "isSecret": true
         },
         {
           "name": "TIMEZONE",
@@ -90,6 +102,12 @@
         {
           "name": "TEMPORAL_CORTEX_TELEMETRY",
           "description": "Override telemetry consent: 'off' to disable, 'on' to enable anonymous usage analytics.",
+          "isRequired": false,
+          "isSecret": false
+        },
+        {
+          "name": "REDIS_URLS",
+          "description": "Comma-separated Redis URLs. When set, activates Platform Mode with distributed locking.",
           "isRequired": false,
           "isSecret": false
         }
