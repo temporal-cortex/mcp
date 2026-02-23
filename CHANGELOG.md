@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.1] - 2026-02-23
+
+### Changed
+- Version alignment with Agent Skill v0.4.1 (OpenClaw scanner remediation — removed over-broad OAuth credential requirements from metadata)
+
 ## [0.4.0] - 2026-02-23
 
 ### Added
@@ -119,7 +124,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Deterministic RRULE expansion via Truth Engine (DST-aware, BYSETPOS, leap years)
 - RRULE Challenge CLI command for demonstrating edge case handling
 
-[Unreleased]: https://github.com/billylui/temporal-cortex-mcp/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/billylui/temporal-cortex-mcp/compare/v0.4.1...HEAD
+[0.4.1]: https://github.com/billylui/temporal-cortex-mcp/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/billylui/temporal-cortex-mcp/compare/v0.3.6...v0.4.0
 [0.3.6]: https://github.com/billylui/temporal-cortex-mcp/compare/v0.3.5...v0.3.6
 [0.3.5]: https://github.com/billylui/temporal-cortex-mcp/compare/v0.3.4...v0.3.5
