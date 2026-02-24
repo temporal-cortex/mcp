@@ -7,7 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.4.2] - 2026-02-24
+
 ### Changed
+- Version alignment with Agent Skill v0.4.2 (OpenClaw scanner remediation — removed mislabeled `primaryEnv`, removed optional env vars from required list, added provenance metadata)
 - **ci**: Added Dependabot Docker ecosystem tracking for `debian:trixie-slim` base image in Dockerfile
 - **ci**: Added Dependabot auto-merge workflow — auto-approves and merges patch updates after CI passes
 
@@ -128,7 +131,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Deterministic RRULE expansion via Truth Engine (DST-aware, BYSETPOS, leap years)
 - RRULE Challenge CLI command for demonstrating edge case handling
 
-[Unreleased]: https://github.com/billylui/temporal-cortex-mcp/compare/v0.4.1...HEAD
+[Unreleased]: https://github.com/billylui/temporal-cortex-mcp/compare/v0.4.2...HEAD
+[0.4.2]: https://github.com/billylui/temporal-cortex-mcp/compare/v0.4.1...v0.4.2
 [0.4.1]: https://github.com/billylui/temporal-cortex-mcp/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/billylui/temporal-cortex-mcp/compare/v0.3.6...v0.4.0
 [0.3.6]: https://github.com/billylui/temporal-cortex-mcp/compare/v0.3.5...v0.3.6
