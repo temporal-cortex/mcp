@@ -52,7 +52,7 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS)
   "mcpServers": {
     "temporal-cortex": {
       "command": "npx",
-      "args": ["-y", "@temporal-cortex/cortex-mcp@0.4.1"],
+      "args": ["-y", "@temporal-cortex/cortex-mcp@0.4.4"],
       "env": {
         "GOOGLE_CLIENT_ID": "your-client-id.apps.googleusercontent.com",
         "GOOGLE_CLIENT_SECRET": "your-client-secret",
@@ -72,7 +72,7 @@ Add to Cursor's MCP settings (`~/.cursor/mcp.json`):
   "mcpServers": {
     "temporal-cortex": {
       "command": "npx",
-      "args": ["-y", "@temporal-cortex/cortex-mcp@0.4.1"],
+      "args": ["-y", "@temporal-cortex/cortex-mcp@0.4.4"],
       "env": {
         "GOOGLE_CLIENT_ID": "your-client-id.apps.googleusercontent.com",
         "GOOGLE_CLIENT_SECRET": "your-client-secret",
@@ -92,7 +92,7 @@ Add to Windsurf's MCP config (`~/.codeium/windsurf/mcp_config.json`):
   "mcpServers": {
     "temporal-cortex": {
       "command": "npx",
-      "args": ["-y", "@temporal-cortex/cortex-mcp@0.4.1"],
+      "args": ["-y", "@temporal-cortex/cortex-mcp@0.4.4"],
       "env": {
         "GOOGLE_CLIENT_ID": "your-client-id.apps.googleusercontent.com",
         "GOOGLE_CLIENT_SECRET": "your-client-secret",
@@ -298,7 +298,7 @@ Transport mode is auto-detected — set `HTTP_PORT` to switch from stdio to HTTP
 
 ```bash
 # HTTP mode example
-HTTP_PORT=8009 npx @temporal-cortex/cortex-mcp@0.4.1
+HTTP_PORT=8009 npx @temporal-cortex/cortex-mcp@0.4.4
 ```
 
 ### Local Mode vs Platform Mode
