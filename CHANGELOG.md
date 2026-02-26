@@ -7,6 +7,27 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.0] - 2026-02-26
+
+### Added
+- `list_calendars` tool (Layer 2) — lists all calendars across connected providers with provider-prefixed IDs, names, colors, and access roles
+- `discover_calendars` MCP prompt template (4th prompt, joining `schedule_meeting`, `check_schedule`, `convert_time`)
+- `cortex-mcp setup` wizard — guided first-run experience covering provider auth, timezone, week start, and MCP client configuration
+- DST prediction in `get_temporal_context` — returns `next_dst_transition`, `next_dst_direction`, and `days_until_dst_transition`
+- Comprehensive provider setup documentation:
+  - [Microsoft Outlook setup guide](docs/outlook-setup.md) — Azure AD app registration with permissions and troubleshooting
+  - [CalDAV setup guide](docs/caldav-setup.md) — iCloud app-specific password, Fastmail, and custom CalDAV server
+  - [Configuration guide](docs/configuration-guide.md) — all environment variables, timezone, week start, multi-calendar, output format
+  - [First Run Guide](docs/first-run-guide.md) — getting started in 5 minutes tutorial
+
+### Changed
+- TOON is now the default output format for all data tools (`list_calendars`, `list_events`, `find_free_slots`, `expand_rrule`, `get_availability`). JSON available via explicit `format: "json"`.
+- Tool count increased from 11 to 12 (addition of `list_calendars`)
+- Google Cloud setup guide expanded with detailed prerequisites, verification steps, additional troubleshooting scenarios, and revoking access instructions
+- README updated to reference `cortex-mcp setup` as the primary installation path
+- TOON claim standardized to "~40% fewer tokens" across all documentation
+- Registry metadata (`.mcp/server.json`) updated to "12 deterministic calendar tools"
+
 ## [0.4.5] - 2026-02-25
 
 ### Added
@@ -155,7 +176,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Deterministic RRULE expansion via Truth Engine (DST-aware, BYSETPOS, leap years)
 - RRULE Challenge CLI command for demonstrating edge case handling
 
-[Unreleased]: https://github.com/billylui/temporal-cortex-mcp/compare/v0.4.5...HEAD
+[Unreleased]: https://github.com/billylui/temporal-cortex-mcp/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/billylui/temporal-cortex-mcp/compare/v0.4.5...v0.5.0
 [0.4.5]: https://github.com/billylui/temporal-cortex-mcp/compare/v0.4.4...v0.4.5
 [0.4.4]: https://github.com/billylui/temporal-cortex-mcp/compare/v0.4.3...v0.4.4
 [0.4.3]: https://github.com/billylui/temporal-cortex-mcp/compare/v0.4.2...v0.4.3

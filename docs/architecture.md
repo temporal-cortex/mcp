@@ -16,13 +16,13 @@ The MCP server is a single Rust binary that communicates with AI clients (Claude
 
 ## Tool Layers
 
-The 11 tools are organized into 4 layers. Agents work top-down: orient in time, then query calendars, then book.
+The 12 tools are organized into 4 layers. Agents work top-down: orient in time, then query calendars, then book.
 
 ```
 Layer 4: Booking          [book_slot]                                        — Safe mutation
 Layer 3: Availability     [get_availability]                                 — Cross-calendar query
-Layer 2: Calendar Ops     [list_events, find_free_slots, expand_rrule,       — Calendar data
-                           check_availability]
+Layer 2: Calendar Ops     [list_calendars, list_events, find_free_slots,     — Calendar data
+                           expand_rrule, check_availability]
 Layer 1: Temporal Context  [get_temporal_context, resolve_datetime,            — Time awareness
                             convert_timezone, compute_duration,
                             adjust_timestamp]
@@ -91,7 +91,7 @@ Truth Engine is open source and available as a standalone library: [truth-engine
 
 A data format designed for LLM consumption. Calendar data encoded in TOON uses approximately 40% fewer tokens than equivalent JSON, reducing API costs and freeing context window space for the conversation.
 
-TOON roundtrips perfectly — encode to TOON, decode back to the original data structure with zero loss. The MCP server offers TOON as an optional output format for `list_events`.
+TOON roundtrips perfectly — encode to TOON, decode back to the original data structure with zero loss. TOON is the default output format for all data tools (`list_calendars`, `list_events`, `find_free_slots`, `expand_rrule`, `get_availability`). Use `format: "json"` when you need structured JSON.
 
 ### Two-Phase Commit (Booking Safety)
 
@@ -145,4 +145,4 @@ Per MCP 2025-11-25 spec. The server listens on `http://{HTTP_HOST}:{HTTP_PORT}/m
 
 ## MCP Protocol
 
-The server implements the [Model Context Protocol](https://modelcontextprotocol.io/) specification using the rmcp Rust crate. It registers 11 tools with JSON Schema parameter definitions that MCP clients use for tool calling.
+The server implements the [Model Context Protocol](https://modelcontextprotocol.io/) specification using the rmcp Rust crate. It registers 12 tools with JSON Schema parameter definitions that MCP clients use for tool calling.

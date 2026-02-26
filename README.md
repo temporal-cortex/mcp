@@ -6,7 +6,7 @@
 [![Smithery](https://smithery.ai/badge/@temporal-cortex/cortex-mcp)](https://smithery.ai/server/@temporal-cortex/cortex-mcp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-**v0.4.5** · February 2026 · [Changelog](CHANGELOG.md) · **Website:** [temporal-cortex.com](https://temporal-cortex.com)
+**v0.5.0** · February 2026 · [Changelog](CHANGELOG.md) · **Website:** [temporal-cortex.com](https://temporal-cortex.com)
 
 Temporal Cortex is a Model Context Protocol server that gives AI agents deterministic calendar capabilities — temporal context, datetime resolution, multi-calendar availability merging across Google Calendar, Microsoft Outlook, and CalDAV, and conflict-free booking with Two-Phase Commit. Powered by [Truth Engine](https://github.com/billylui/temporal-cortex-core). Install: `npx @temporal-cortex/cortex-mcp`.
 
@@ -25,21 +25,29 @@ Most Calendar MCP servers are thin CRUD wrappers that pass these failures throug
 - **Atomic booking** — Lock the time slot, verify no conflicts exist, then write. Two agents booking the same 2pm slot? Exactly one succeeds. The other gets a clear error. No double-bookings.
 - **Computed availability** — Merges free/busy data across multiple calendars into a single unified view. The AI sees actual availability, not a raw dump of events to misinterpret.
 - **Deterministic RRULE expansion** — Handles DST transitions, `BYSETPOS=-1` (last weekday of month), `EXDATE` with timezones, leap year recurrences, and `INTERVAL>1` with `BYDAY`. Powered by [Truth Engine](https://github.com/billylui/temporal-cortex-core), not LLM inference.
-- **Token-efficient output** — TOON format compresses calendar data to ~40% fewer tokens than standard JSON, reducing costs and context window usage.
+- **Token-efficient output** — TOON format compresses calendar data by ~40% fewer tokens than standard JSON, reducing costs and context window usage. TOON is the default output format for all data tools (`list_calendars`, `list_events`, `find_free_slots`, `expand_rrule`, `get_availability`). JSON is available via explicit `format: "json"`.
 
 ## What do I need to run Temporal Cortex?
 
 - **Node.js 18+** (for `npx` to download and run the binary) or **Docker**
 - **At least one calendar provider**:
   - **Google Calendar** — requires [Google OAuth credentials](docs/google-cloud-setup.md)
-  - **Microsoft Outlook** — requires Azure AD app registration (`MICROSOFT_CLIENT_ID`)
-  - **CalDAV** (iCloud, Fastmail, etc.) — requires an app-specific password
+  - **Microsoft Outlook** — requires [Azure AD app registration](docs/outlook-setup.md) (`MICROSOFT_CLIENT_ID`)
+  - **CalDAV** (iCloud, Fastmail, etc.) — requires an [app-specific password](docs/caldav-setup.md)
 
 ## How do I install Temporal Cortex?
 
-**Set up in 3 steps:**
+**The fastest way to get started:**
 
-1. **Install prerequisites** — Node.js 18+ (or Docker) and at least one calendar provider (Google Calendar, Microsoft Outlook, or CalDAV).
+```bash
+npx @temporal-cortex/cortex-mcp setup
+```
+
+The `cortex-mcp setup` wizard walks you through provider authentication, timezone configuration, and MCP client setup interactively. See the [First Run Guide](docs/first-run-guide.md) for a detailed walkthrough.
+
+**Or set up manually in 3 steps:**
+
+1. **Install prerequisites** — Node.js 18+ (or Docker) and at least one calendar provider ([Google Calendar](docs/google-cloud-setup.md), [Microsoft Outlook](docs/outlook-setup.md), or [CalDAV](docs/caldav-setup.md)).
 2. **Add the MCP configuration** to your AI client's config file (see client-specific examples below).
 3. **Run the auth flow** — `npx @temporal-cortex/cortex-mcp auth google` (or `outlook` / `caldav`). This authenticates and configures timezone, week start, and telemetry preferences.
 
@@ -52,7 +60,7 @@ Add to `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS)
   "mcpServers": {
     "temporal-cortex": {
       "command": "npx",
-      "args": ["-y", "@temporal-cortex/cortex-mcp@0.4.5"],
+      "args": ["-y", "@temporal-cortex/cortex-mcp@0.5.0"],
       "env": {
         "GOOGLE_CLIENT_ID": "your-client-id.apps.googleusercontent.com",
         "GOOGLE_CLIENT_SECRET": "your-client-secret",
@@ -72,7 +80,7 @@ Add to Cursor's MCP settings (`~/.cursor/mcp.json`):
   "mcpServers": {
     "temporal-cortex": {
       "command": "npx",
-      "args": ["-y", "@temporal-cortex/cortex-mcp@0.4.5"],
+      "args": ["-y", "@temporal-cortex/cortex-mcp@0.5.0"],
       "env": {
         "GOOGLE_CLIENT_ID": "your-client-id.apps.googleusercontent.com",
         "GOOGLE_CLIENT_SECRET": "your-client-secret",
@@ -92,7 +100,7 @@ Add to Windsurf's MCP config (`~/.codeium/windsurf/mcp_config.json`):
   "mcpServers": {
     "temporal-cortex": {
       "command": "npx",
-      "args": ["-y", "@temporal-cortex/cortex-mcp@0.4.5"],
+      "args": ["-y", "@temporal-cortex/cortex-mcp@0.5.0"],
       "env": {
         "GOOGLE_CLIENT_ID": "your-client-id.apps.googleusercontent.com",
         "GOOGLE_CLIENT_SECRET": "your-client-secret",
@@ -116,11 +124,11 @@ docker run --rm -i \
 
 Build the image first: `docker build -t cortex-mcp .` (or build directly from the repo: `docker build -t cortex-mcp https://github.com/billylui/temporal-cortex-mcp.git`).
 
-> **Need Google OAuth credentials?** See [docs/google-cloud-setup.md](docs/google-cloud-setup.md) for a step-by-step guide. For Outlook, add `MICROSOFT_CLIENT_ID`. For CalDAV (iCloud/Fastmail), no env vars needed — run `auth caldav` and enter your app-specific password.
+> **Need help with provider credentials?** See the setup guides: [Google Calendar](docs/google-cloud-setup.md), [Microsoft Outlook](docs/outlook-setup.md), [CalDAV (iCloud/Fastmail)](docs/caldav-setup.md). For a complete reference of all environment variables and configuration options, see the [Configuration Guide](docs/configuration-guide.md).
 
 ## How do I authenticate with calendar providers?
 
-On first run, the server needs calendar provider credentials. Run the auth flow for each provider you want to connect:
+The easiest path is `npx @temporal-cortex/cortex-mcp setup`, which handles authentication, configuration, and MCP client setup in one guided flow. For individual provider auth, run the commands below:
 
 ```bash
 # Google Calendar (default)
@@ -205,17 +213,17 @@ Add to Cursor's MCP settings (`~/.cursor/mcp.json`) using the same format:
 - **Usage dashboard** -- monitor tool calls, connected calendars, and billing from [app.temporal-cortex.com](https://app.temporal-cortex.com).
 - **Managed calendar connections** -- token refresh, re-authentication, and provider health are handled server-side.
 
-All 11 tools and 4 layers work identically in Cloud Mode. The only difference is transport: the client sends requests to the cloud endpoint instead of a local stdio process.
+All 12 tools and 4 layers work identically in Cloud Mode. The only difference is transport: the client sends requests to the cloud endpoint instead of a local stdio process.
 
 ## What tools does Temporal Cortex provide?
 
-Temporal Cortex exposes 11 Model Context Protocol tools organized in 4 layers:
+Temporal Cortex exposes 12 Model Context Protocol tools organized in 4 layers:
 
 ### Layer 1 — Temporal Context
 
 | Tool | Description |
 |------|-------------|
-| `get_temporal_context` | Returns the current time, timezone, UTC offset, DST status, and day of week for the configured locale. Call this tool first in any calendar session. |
+| `get_temporal_context` | Returns the current time, timezone, UTC offset, DST status, DST prediction (next transition date and direction), and day of week for the configured locale. Call this tool first in any calendar session. |
 | `resolve_datetime` | Resolves human language expressions like "next Tuesday at 2pm" or "tomorrow morning" into precise RFC 3339 timestamps. |
 | `convert_timezone` | Converts any RFC 3339 datetime from one IANA timezone to another, reporting the target timezone's DST status. |
 | `compute_duration` | Computes the duration between two timestamps, returning days, hours, minutes, and a human-readable string. |
@@ -225,16 +233,17 @@ Temporal Cortex exposes 11 Model Context Protocol tools organized in 4 layers:
 
 | Tool | Description |
 |------|-------------|
-| `list_events` | Lists calendar events within a time range, supporting provider-prefixed IDs and TOON output format for approximately 40% fewer tokens. |
-| `find_free_slots` | Finds available time slots in a calendar by computing gaps between events, with support for minimum slot duration. |
-| `expand_rrule` | Expands RFC 5545 recurrence rules into concrete datetime instances, handling DST transitions, BYSETPOS, leap years, and EXDATE exclusions deterministically. |
+| `list_calendars` | Lists all calendars across connected providers with provider-prefixed IDs, names, colors, and access roles. TOON output by default (~40% fewer tokens). |
+| `list_events` | Lists calendar events within a time range, supporting provider-prefixed IDs. TOON output by default (~40% fewer tokens); use `format: "json"` for JSON. |
+| `find_free_slots` | Finds available time slots in a calendar by computing gaps between events, with support for minimum slot duration. TOON output by default. |
+| `expand_rrule` | Expands RFC 5545 recurrence rules into concrete datetime instances, handling DST transitions, BYSETPOS, leap years, and EXDATE exclusions deterministically. TOON output by default. |
 | `check_availability` | Checks whether a specific time slot is available by examining both calendar events and active booking locks. |
 
 ### Layer 3 — Availability
 
 | Tool | Description |
 |------|-------------|
-| `get_availability` | Merges free/busy data across multiple calendars into a single unified view with configurable privacy levels (Opaque or Full). |
+| `get_availability` | Merges free/busy data across multiple calendars into a single unified view with configurable privacy levels (Opaque or Full). TOON output by default. |
 
 ### Layer 4 — Booking
 
@@ -287,7 +296,7 @@ The MCP server is a single Rust binary distributed via npm and Docker. It runs l
 3. **Compute** — For availability queries, the engine merges free/busy data across all connected calendar providers. For RRULE expansion, it generates concrete instances following RFC 5545 rules.
 4. **Execute** — For booking operations, Two-Phase Commit acquires a lock, verifies the slot is free, writes the event, and releases the lock. Failure at any step triggers rollback.
 
-TOON (Token-Oriented Object Notation) compresses calendar data for LLM consumption — approximately 40% fewer tokens than JSON, with perfect roundtrip fidelity.
+TOON (Token-Oriented Object Notation) compresses calendar data for LLM consumption — ~40% fewer tokens than JSON, with perfect roundtrip fidelity. TOON is the default output format for all data tools; use `format: "json"` when you need structured JSON.
 
 ### Stdio vs HTTP Transport
 
@@ -298,7 +307,7 @@ Transport mode is auto-detected — set `HTTP_PORT` to switch from stdio to HTTP
 
 ```bash
 # HTTP mode example
-HTTP_PORT=8009 npx @temporal-cortex/cortex-mcp@0.4.5
+HTTP_PORT=8009 npx @temporal-cortex/cortex-mcp@0.5.0
 ```
 
 ### Local Mode vs Platform Mode
@@ -327,7 +336,7 @@ Mode is auto-detected — there is no configuration flag.
 | `HTTP_HOST` | No | `127.0.0.1` | Bind address for HTTP transport. Use `0.0.0.0` only behind a reverse proxy. |
 | `ALLOWED_ORIGINS` | No | — | Comma-separated allowed Origin headers for HTTP mode (e.g., `http://localhost:3000`). All cross-origin requests rejected if unset. |
 
-At least one calendar provider must be configured. See [docs/google-cloud-setup.md](docs/google-cloud-setup.md) for Google setup. CalDAV providers (iCloud, Fastmail) use app-specific passwords configured via `cortex-mcp auth caldav`.
+At least one calendar provider must be configured. See the provider setup guides: [Google Calendar](docs/google-cloud-setup.md), [Microsoft Outlook](docs/outlook-setup.md), [CalDAV (iCloud/Fastmail)](docs/caldav-setup.md). For a complete configuration reference, see the [Configuration Guide](docs/configuration-guide.md).
 
 ## How do I troubleshoot common issues?
 
@@ -339,7 +348,7 @@ At least one calendar provider must be configured. See [docs/google-cloud-setup.
 | Server not appearing in MCP client | Ensure Node.js 18+ is installed (`node --version`). Check your MCP client's logs for errors. |
 | Provider not discovered on startup | Verify the provider is registered in `~/.config/temporal-cortex/config.json` (run `auth` again if needed) |
 
-See [docs/google-cloud-setup.md](docs/google-cloud-setup.md) for detailed Google OAuth troubleshooting.
+See provider-specific troubleshooting: [Google Calendar](docs/google-cloud-setup.md#troubleshooting), [Microsoft Outlook](docs/outlook-setup.md#troubleshooting), [CalDAV](docs/caldav-setup.md#troubleshooting).
 
 ## Frequently Asked Questions
 
@@ -361,11 +370,11 @@ When `book_slot` is called, the server acquires a time-range lock, verifies no c
 
 ### What is TOON and why does it reduce costs?
 
-TOON (Token-Oriented Object Notation) compresses calendar payloads by approximately 40% compared to JSON (38% on a Google Calendar event schema benchmark) while maintaining perfect roundtrip fidelity. Fewer tokens means lower API costs and more room in the LLM context window. Use `format: "toon"` with `list_events` to enable it.
+TOON (Token-Oriented Object Notation) compresses calendar payloads by ~40% fewer tokens compared to JSON (38% on a Google Calendar event schema benchmark) while maintaining perfect roundtrip fidelity. Fewer tokens means lower API costs and more room in the LLM context window. TOON is now the default output format for all data tools (`list_calendars`, `list_events`, `find_free_slots`, `expand_rrule`, `get_availability`). Use `format: "json"` to get JSON output instead.
 
 ### How does Temporal Cortex handle daylight saving time?
 
-All temporal tools are DST-aware. `adjust_timestamp` with "+1d" across a spring-forward boundary preserves wall-clock time (1:00 AM EST becomes 1:00 AM EDT). RRULE expansion keeps recurring events at their local time across DST transitions. `get_temporal_context` reports whether DST is currently active.
+All temporal tools are DST-aware. `adjust_timestamp` with "+1d" across a spring-forward boundary preserves wall-clock time (1:00 AM EST becomes 1:00 AM EDT). RRULE expansion keeps recurring events at their local time across DST transitions. `get_temporal_context` reports whether DST is currently active and predicts the next DST transition — including the transition date, direction (spring-forward or fall-back), and days until it occurs.
 
 ### What is the difference between Local Mode and Platform Mode?
 

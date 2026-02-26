@@ -5,8 +5,10 @@ This guide is designed for AI agents (e.g., Cline auto-install) to set up `@temp
 ## Prerequisites
 
 - Node.js 18+
-- A Google account with Google Calendar
-- Google OAuth credentials ([setup guide](docs/google-cloud-setup.md))
+- At least one calendar provider:
+  - Google Calendar — [Google OAuth credentials](docs/google-cloud-setup.md)
+  - Microsoft Outlook — [Azure AD app registration](docs/outlook-setup.md)
+  - CalDAV (iCloud, Fastmail) — [app-specific password](docs/caldav-setup.md)
 
 ## Installation
 
@@ -28,13 +30,26 @@ docker run --rm -i \
 
 ## Authentication
 
-Before first use, set up Google OAuth:
+The fastest way to get started is the setup wizard:
 
 ```bash
-GOOGLE_CLIENT_ID=your-id GOOGLE_CLIENT_SECRET=your-secret npx @temporal-cortex/cortex-mcp auth
+npx @temporal-cortex/cortex-mcp setup
 ```
 
-This opens a browser for Google consent. Tokens are saved to `~/.config/temporal-cortex/credentials.json`.
+Or authenticate individual providers:
+
+```bash
+# Google Calendar
+GOOGLE_CLIENT_ID=your-id GOOGLE_CLIENT_SECRET=your-secret npx @temporal-cortex/cortex-mcp auth google
+
+# Microsoft Outlook
+MICROSOFT_CLIENT_ID=your-id MICROSOFT_CLIENT_SECRET=your-secret npx @temporal-cortex/cortex-mcp auth outlook
+
+# CalDAV (iCloud, Fastmail)
+npx @temporal-cortex/cortex-mcp auth caldav
+```
+
+This opens a browser for OAuth consent (or prompts for CalDAV credentials). Tokens are saved to `~/.config/temporal-cortex/credentials.json`.
 
 ## MCP Client Configuration
 
@@ -47,7 +62,7 @@ File: `~/Library/Application Support/Claude/claude_desktop_config.json` (macOS) 
   "mcpServers": {
     "temporal-cortex": {
       "command": "npx",
-      "args": ["-y", "@temporal-cortex/cortex-mcp@0.4.5"],
+      "args": ["-y", "@temporal-cortex/cortex-mcp@0.5.0"],
       "env": {
         "GOOGLE_CLIENT_ID": "your-client-id.apps.googleusercontent.com",
         "GOOGLE_CLIENT_SECRET": "your-client-secret",
@@ -67,7 +82,7 @@ File: `~/.cursor/mcp.json`
   "mcpServers": {
     "temporal-cortex": {
       "command": "npx",
-      "args": ["-y", "@temporal-cortex/cortex-mcp@0.4.5"],
+      "args": ["-y", "@temporal-cortex/cortex-mcp@0.5.0"],
       "env": {
         "GOOGLE_CLIENT_ID": "your-client-id.apps.googleusercontent.com",
         "GOOGLE_CLIENT_SECRET": "your-client-secret",
@@ -87,7 +102,7 @@ File: `~/.codeium/windsurf/mcp_config.json`
   "mcpServers": {
     "temporal-cortex": {
       "command": "npx",
-      "args": ["-y", "@temporal-cortex/cortex-mcp@0.4.5"],
+      "args": ["-y", "@temporal-cortex/cortex-mcp@0.5.0"],
       "env": {
         "GOOGLE_CLIENT_ID": "your-client-id.apps.googleusercontent.com",
         "GOOGLE_CLIENT_SECRET": "your-client-secret",
@@ -102,32 +117,38 @@ File: `~/.codeium/windsurf/mcp_config.json`
 
 After configuration, restart your MCP client and ask:
 
-> "What meetings do I have today?"
+> "List my calendars."
 
-The AI should use the `list_events` tool and return your calendar events.
+The AI should use the `list_calendars` tool and return your connected calendars with provider-prefixed IDs.
 
-## Available Tools (11)
+## Available Tools (12)
 
 **Layer 1 — Temporal Context** (call `get_temporal_context` first):
 
 | Tool | Purpose |
 |------|---------|
-| `get_temporal_context` | Current time, timezone, UTC offset, DST status |
+| `get_temporal_context` | Current time, timezone, UTC offset, DST status, next DST transition |
 | `resolve_datetime` | Resolve `"next Tuesday at 2pm"` to RFC 3339 |
 | `convert_timezone` | Convert datetimes between timezones |
 | `compute_duration` | Duration between two timestamps |
 | `adjust_timestamp` | DST-aware timestamp adjustment |
 
-**Layer 2-4 — Calendar Operations, Availability, Booking**:
+**Layer 2 — Calendar Operations** (TOON output by default, `format: "json"` for JSON):
 
 | Tool | Purpose |
 |------|---------|
+| `list_calendars` | List all calendars across connected providers |
 | `list_events` | List calendar events in a time range |
 | `find_free_slots` | Find available time slots |
-| `book_slot` | Book a slot with conflict prevention |
 | `expand_rrule` | Expand recurrence rules into instances |
 | `check_availability` | Check if a time slot is free |
-| `get_availability` | Merged availability across calendars |
+
+**Layer 3-4 — Availability & Booking**:
+
+| Tool | Purpose |
+|------|---------|
+| `get_availability` | Merged availability across calendars (TOON default) |
+| `book_slot` | Book a slot with conflict prevention |
 
 ## Troubleshooting
 

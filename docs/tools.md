@@ -1,6 +1,6 @@
 # Tool Reference
 
-Complete reference for the 11 MCP tools provided by `@temporal-cortex/cortex-mcp`.
+Complete reference for the 12 MCP tools provided by `@temporal-cortex/cortex-mcp`.
 
 All datetime parameters use [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339) format (e.g., `2026-03-15T14:00:00Z` or `2026-03-15T10:00:00-04:00`).
 
@@ -17,6 +17,7 @@ These tools are available over both **stdio** (default) and **streamable HTTP** 
 | `convert_timezone` | true | false | true | false |
 | `compute_duration` | true | false | true | false |
 | `adjust_timestamp` | true | false | true | false |
+| `list_calendars` | true | false | true | true |
 | `list_events` | true | false | true | true |
 | `find_free_slots` | true | false | true | true |
 | `book_slot` | **false** | false | **false** | true |
@@ -59,12 +60,16 @@ Get the current time, timezone, and calendar metadata. This is the entry point â
   "day_of_week": "Friday",
   "iso_week": 8,
   "is_weekday": true,
-  "day_of_year": 51
+  "day_of_year": 51,
+  "next_dst_transition": "2026-03-08T07:00:00+00:00",
+  "next_dst_direction": "spring-forward",
+  "days_until_dst_transition": 16
 }
 ```
 
 - `timezone_configured: false` means no default timezone is set. The agent should prompt the user to configure one.
 - `dst_active` compares the current UTC offset to January 1st (standard time) offset.
+- `next_dst_transition`, `next_dst_direction`, and `days_until_dst_transition` are only present for timezones that observe DST. They predict the next upcoming transition (spring-forward or fall-back) by scanning forward up to 400 days.
 
 ### Example
 
@@ -255,6 +260,64 @@ Adjust a timestamp by a duration, with DST awareness.
 
 ---
 
+## list_calendars
+
+Discover all connected calendars across providers with labels and metadata. Call this first to learn what calendars are available before querying events or availability.
+
+### Parameters
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `provider` | string | No | Filter to a specific provider (`"google"`, `"outlook"`, `"caldav"`). Omit to list all. |
+| `format` | string | No | Output format: `"toon"` (default) or `"json"`. |
+
+### Output
+
+```json
+{
+  "content": "...",
+  "format": "toon",
+  "total": 3
+}
+```
+
+The `content` field contains an array of calendar entries:
+
+```json
+[
+  {
+    "id": "google/primary",
+    "provider": "google",
+    "name": "My Calendar",
+    "label": "Work",
+    "primary": true,
+    "access_role": "owner"
+  }
+]
+```
+
+- `id` is a provider-prefixed calendar ID (e.g., `"google/primary"`, `"outlook/calendar-uuid"`). Use this value in other tools like `list_events` and `book_slot`.
+- `label` is the user-defined display name set during `cortex-mcp setup`. It is `null` if no label was configured.
+- When `format` is `"toon"`, the `content` field contains TOON-encoded data (~40% fewer tokens than JSON).
+
+### Example
+
+> "What calendars do I have connected?"
+
+```json
+{}
+```
+
+Or filtered to one provider:
+
+```json
+{
+  "provider": "google"
+}
+```
+
+---
+
 ## list_events
 
 List calendar events in a time range.
@@ -266,7 +329,7 @@ List calendar events in a time range.
 | `calendar_id` | string | Yes | Calendar ID to list events from |
 | `start` | string | Yes | Start of time range (RFC 3339) |
 | `end` | string | Yes | End of time range (RFC 3339) |
-| `format` | string | No | Output format: `"toon"` or `"json"` (default: `"json"`) |
+| `format` | string | No | Output format: `"toon"` (default) or `"json"`. |
 
 ### Output
 
@@ -307,6 +370,7 @@ Find available free time slots in a calendar within a time window.
 | `start` | string | Yes | Start of search window (RFC 3339) |
 | `end` | string | Yes | End of search window (RFC 3339) |
 | `min_duration_minutes` | integer | No | Minimum slot duration in minutes (default: 30) |
+| `format` | string | No | Output format: `"toon"` (default) or `"json"`. |
 
 ### Output
 
@@ -409,6 +473,7 @@ Expand a recurrence rule (RRULE) into concrete event instances. Uses Truth Engin
 | `duration_minutes` | integer | No | Duration of each instance in minutes (default: 60) |
 | `timezone` | string | Yes | IANA timezone (e.g., `"America/New_York"`) |
 | `count` | integer | No | Maximum number of instances to return |
+| `format` | string | No | Output format: `"toon"` (default) or `"json"`. |
 
 ### Output
 
@@ -494,6 +559,7 @@ This is the multi-calendar aggregation tool â€” it combines multiple calendars i
 | `privacy` | string | No | `"opaque"` (default) hides source counts, `"full"` shows them |
 | `min_free_slot_minutes` | integer | No | Minimum free slot duration in minutes (default: 30) |
 | `calendar_ids` | string[] | No | Calendar IDs to query (default: `["primary"]`) |
+| `format` | string | No | Output format: `"toon"` (default) or `"json"`. |
 
 ### Output
 
