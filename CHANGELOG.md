@@ -7,7 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.1] - 2026-02-27
+
 ### Changed
+- **repo**: Migrated GitHub organization from `billylui/*` to `temporal-cortex/*` — all repository URLs, CHANGELOG comparison links, and cross-repo references updated
 - Renamed "Cloud Mode" to "Temporal Cortex Platform" throughout documentation
 - Updated Platform Mode description to emphasize full capability set (safety, metering, policies)
 - Fixed FAQ link: replaced tally.so early access form with live app.temporal-cortex.com
@@ -182,7 +185,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Deterministic RRULE expansion via Truth Engine (DST-aware, BYSETPOS, leap years)
 - RRULE Challenge CLI command for demonstrating edge case handling
 
-[Unreleased]: https://github.com/temporal-cortex/mcp/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/temporal-cortex/mcp/compare/v0.5.1...HEAD
+[0.5.1]: https://github.com/temporal-cortex/mcp/compare/v0.5.0...v0.5.1
 [0.5.0]: https://github.com/temporal-cortex/mcp/compare/v0.4.5...v0.5.0
 [0.4.5]: https://github.com/temporal-cortex/mcp/compare/v0.4.4...v0.4.5
 [0.4.4]: https://github.com/temporal-cortex/mcp/compare/v0.4.3...v0.4.4
