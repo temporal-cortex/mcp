@@ -18,7 +18,7 @@ This is a **documentation and distribution** repository. The MCP server source c
 
 ### Bug Reports
 
-Found a bug? Search [existing issues](https://github.com/billylui/temporal-cortex-mcp/issues) first — it may already be reported. If not, [open a new issue](https://github.com/billylui/temporal-cortex-mcp/issues/new?template=bug_report.yml) with:
+Found a bug? Search [existing issues](https://github.com/temporal-cortex/mcp/issues) first — it may already be reported. If not, [open a new issue](https://github.com/temporal-cortex/mcp/issues/new?template=bug_report.yml) with:
 
 - Your OS, Node.js version, and MCP client
 - Steps to reproduce
@@ -27,7 +27,7 @@ Found a bug? Search [existing issues](https://github.com/billylui/temporal-corte
 
 ### Feature Requests
 
-Have an idea? [Open an issue](https://github.com/billylui/temporal-cortex-mcp/issues/new?template=feature_request.yml) describing your use case and proposed solution.
+Have an idea? [Open an issue](https://github.com/temporal-cortex/mcp/issues/new?template=feature_request.yml) describing your use case and proposed solution.
 
 ### Documentation
 
@@ -40,7 +40,7 @@ Improvements to documentation, examples, and guides are welcome via pull request
 
 ### Core Libraries
 
-The open-source computation libraries (Truth Engine, TOON) that power the MCP server live in [temporal-cortex-core](https://github.com/billylui/temporal-cortex-core). Code contributions to those libraries are welcome there.
+The open-source computation libraries (Truth Engine, TOON) that power the MCP server live in [temporal-cortex-core](https://github.com/temporal-cortex/core). Code contributions to those libraries are welcome there.
 
 ## Commit Messages
 

@@ -65,7 +65,7 @@ This means no Rust toolchain is required — `npx` handles everything.
 A Docker image is also available for containerized deployments and CI pipelines:
 
 ```bash
-docker build -t cortex-mcp https://github.com/billylui/temporal-cortex-mcp.git
+docker build -t cortex-mcp https://github.com/temporal-cortex/mcp.git
 docker run --rm -i cortex-mcp
 ```
 

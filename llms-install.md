@@ -21,7 +21,7 @@ npx -y @temporal-cortex/cortex-mcp
 ### Docker Alternative
 
 ```bash
-docker build -t cortex-mcp https://github.com/billylui/temporal-cortex-mcp.git
+docker build -t cortex-mcp https://github.com/temporal-cortex/mcp.git
 docker run --rm -i \
   -e GOOGLE_CLIENT_ID=your-id -e GOOGLE_CLIENT_SECRET=your-secret \
   -v ~/.config/temporal-cortex:/root/.config/temporal-cortex \

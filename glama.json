@@ -1,6 +1,6 @@
 {
   "$schema": "https://glama.ai/mcp/schemas/server.json",
-  "maintainers": ["billylui"],
+  "maintainers": ["temporal-cortex"],
   "description": "Deterministic calendar tools for AI agents: temporal context, datetime resolution, multi-calendar availability merging (Google, Outlook, CalDAV), RRULE expansion, and conflict-free booking with Two-Phase Commit.",
   "features": {
     "tools": true,

@@ -6,4 +6,4 @@ Please read the full text at the link above. By participating in this project, y
 
 ## Reporting
 
-If you experience or witness unacceptable behavior, please report it by [opening a GitHub issue](https://github.com/billylui/temporal-cortex-mcp/issues/new?labels=conduct&title=Code+of+Conduct+Report) with the "conduct" label. If you prefer to report privately, use [GitHub's private contact form](https://github.com/billylui/temporal-cortex-mcp/security/advisories/new). All reports will be reviewed and investigated promptly and fairly.
+If you experience or witness unacceptable behavior, please report it by [opening a GitHub issue](https://github.com/temporal-cortex/mcp/issues/new?labels=conduct&title=Code+of+Conduct+Report) with the "conduct" label. If you prefer to report privately, use [GitHub's private contact form](https://github.com/temporal-cortex/mcp/security/advisories/new). All reports will be reviewed and investigated promptly and fairly.

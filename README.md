@@ -1,6 +1,6 @@
 # Temporal Cortex MCP
 
-[![CI](https://github.com/billylui/temporal-cortex-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/billylui/temporal-cortex-mcp/actions/workflows/ci.yml)
+[![CI](https://github.com/temporal-cortex/mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/temporal-cortex/mcp/actions/workflows/ci.yml)
 [![npm version](https://img.shields.io/npm/v/@temporal-cortex/cortex-mcp)](https://www.npmjs.com/package/@temporal-cortex/cortex-mcp)
 [![npm downloads](https://img.shields.io/npm/dm/@temporal-cortex/cortex-mcp)](https://www.npmjs.com/package/@temporal-cortex/cortex-mcp)
 [![Smithery](https://smithery.ai/badge/@temporal-cortex/cortex-mcp)](https://smithery.ai/server/@temporal-cortex/cortex-mcp)
@@ -8,7 +8,7 @@
 
 **v0.5.0** · February 2026 · [Changelog](CHANGELOG.md) · **Website:** [temporal-cortex.com](https://temporal-cortex.com)
 
-Temporal Cortex is a Model Context Protocol server that gives AI agents deterministic calendar capabilities — temporal context, datetime resolution, multi-calendar availability merging across Google Calendar, Microsoft Outlook, and CalDAV, and conflict-free booking with Two-Phase Commit. Powered by [Truth Engine](https://github.com/billylui/temporal-cortex-core). Install: `npx @temporal-cortex/cortex-mcp`.
+Temporal Cortex is a Model Context Protocol server that gives AI agents deterministic calendar capabilities — temporal context, datetime resolution, multi-calendar availability merging across Google Calendar, Microsoft Outlook, and CalDAV, and conflict-free booking with Two-Phase Commit. Powered by [Truth Engine](https://github.com/temporal-cortex/core). Install: `npx @temporal-cortex/cortex-mcp`.
 
 <a href="https://insiders.vscode.dev/redirect/mcp/install?name=temporal-cortex-mcp&inputs=%7B%22google_client_id%22%3A%22%22%2C%22google_client_secret%22%3A%22%22%7D&config=%7B%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22%40temporal-cortex%2Fcortex-mcp%22%5D%2C%22env%22%3A%7B%22GOOGLE_CLIENT_ID%22%3A%22%24%7Binput%3Agoogle_client_id%7D%22%2C%22GOOGLE_CLIENT_SECRET%22%3A%22%24%7Binput%3Agoogle_client_secret%7D%22%7D%7D"><img src="https://img.shields.io/badge/VS_Code-Install_MCP_Server-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white" alt="Install in VS Code"></a>
 <a href="https://cursor.com/install-mcp?name=temporal-cortex&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIkB0ZW1wb3JhbC1jb3J0ZXgvY29ydGV4LW1jcCJdLCJlbnYiOnsiR09PR0xFX0NMSUVOVF9JRCI6InlvdXItY2xpZW50LWlkLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiR09PR0xFX0NMSUVOVF9TRUNSRVQiOiJ5b3VyLWNsaWVudC1zZWNyZXQifX0%3D"><img src="https://img.shields.io/badge/Cursor-Install_MCP_Server-black?style=flat-square&logo=cursor&logoColor=white" alt="Install in Cursor"></a>
@@ -24,7 +24,7 @@ Most Calendar MCP servers are thin CRUD wrappers that pass these failures throug
 - **Temporal awareness** — Agents call `get_temporal_context` to know the actual time and timezone. `resolve_datetime` turns `"next Tuesday at 2pm"` into a precise RFC 3339 timestamp. No hallucination.
 - **Atomic booking** — Lock the time slot, verify no conflicts exist, then write. Two agents booking the same 2pm slot? Exactly one succeeds. The other gets a clear error. No double-bookings.
 - **Computed availability** — Merges free/busy data across multiple calendars into a single unified view. The AI sees actual availability, not a raw dump of events to misinterpret.
-- **Deterministic RRULE expansion** — Handles DST transitions, `BYSETPOS=-1` (last weekday of month), `EXDATE` with timezones, leap year recurrences, and `INTERVAL>1` with `BYDAY`. Powered by [Truth Engine](https://github.com/billylui/temporal-cortex-core), not LLM inference.
+- **Deterministic RRULE expansion** — Handles DST transitions, `BYSETPOS=-1` (last weekday of month), `EXDATE` with timezones, leap year recurrences, and `INTERVAL>1` with `BYDAY`. Powered by [Truth Engine](https://github.com/temporal-cortex/core), not LLM inference.
 - **Token-efficient output** — TOON format compresses calendar data by ~40% fewer tokens than standard JSON, reducing costs and context window usage. TOON is the default output format for all data tools (`list_calendars`, `list_events`, `find_free_slots`, `expand_rrule`, `get_availability`). JSON is available via explicit `format: "json"`.
 
 ## What do I need to run Temporal Cortex?
@@ -122,7 +122,7 @@ docker run --rm -i \
   cortex-mcp
 ```
 
-Build the image first: `docker build -t cortex-mcp .` (or build directly from the repo: `docker build -t cortex-mcp https://github.com/billylui/temporal-cortex-mcp.git`).
+Build the image first: `docker build -t cortex-mcp .` (or build directly from the repo: `docker build -t cortex-mcp https://github.com/temporal-cortex/mcp.git`).
 
 > **Need help with provider credentials?** See the setup guides: [Google Calendar](docs/google-cloud-setup.md), [Microsoft Outlook](docs/outlook-setup.md), [CalDAV (iCloud/Fastmail)](docs/caldav-setup.md). For a complete reference of all environment variables and configuration options, see the [Configuration Guide](docs/configuration-guide.md).
 
@@ -159,7 +159,7 @@ All preferences are stored in `~/.config/temporal-cortex/config.json` and used b
 
 After authentication, verify it works by asking your AI assistant: *"What time is it?"* — the agent should call `get_temporal_context` and return your current local time.
 
-For a guided workflow, install the [calendar-scheduling Agent Skill](https://github.com/billylui/temporal-cortex-skill) to teach your AI agent the orient-resolve-query-book pattern.
+For a guided workflow, install the [calendar-scheduling Agent Skill](https://github.com/temporal-cortex/skills) to teach your AI agent the orient-resolve-query-book pattern.
 
 ## Temporal Cortex Platform
 
@@ -406,7 +406,7 @@ export TEMPORAL_CORTEX_TELEMETRY=off
 
 ## How do I teach my AI agent the scheduling workflow?
 
-The **[calendar-scheduling](https://github.com/billylui/temporal-cortex-skill)** Agent Skill teaches AI agents the correct workflow for using these tools — from temporal orientation through conflict-free booking. Install it to give your agent procedural knowledge for calendar operations:
+The **[calendar-scheduling](https://github.com/temporal-cortex/skills)** Agent Skill teaches AI agents the correct workflow for using these tools — from temporal orientation through conflict-free booking. Install it to give your agent procedural knowledge for calendar operations:
 
 ```bash
 # Claude Code
@@ -419,7 +419,7 @@ The skill follows the [Agent Skills specification](https://agentskills.io/specif
 
 The computation layer is open source:
 
-- **[temporal-cortex-core](https://github.com/billylui/temporal-cortex-core)** — Truth Engine (temporal resolution, RRULE expansion, availability merging, timezone conversion) + TOON (token compression)
+- **[temporal-cortex-core](https://github.com/temporal-cortex/core)** — Truth Engine (temporal resolution, RRULE expansion, availability merging, timezone conversion) + TOON (token compression)
 - Available on [crates.io](https://crates.io/crates/truth-engine), [npm](https://www.npmjs.com/package/@temporal-cortex/truth-engine), and [PyPI](https://pypi.org/project/temporal-cortex-toon/)
 - 510+ Rust tests, 42 JS tests, 30 Python tests, ~9,000 property-based tests
 

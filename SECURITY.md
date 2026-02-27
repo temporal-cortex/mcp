@@ -13,7 +13,7 @@
 If you discover a security vulnerability, please report it responsibly:
 
 1. **Do not** open a public GitHub issue
-2. Use GitHub's [Private Vulnerability Reporting](https://github.com/billylui/temporal-cortex-mcp/security/advisories/new) to submit the report
+2. Use GitHub's [Private Vulnerability Reporting](https://github.com/temporal-cortex/mcp/security/advisories/new) to submit the report
 3. Include steps to reproduce if possible
 4. Allow reasonable time for a fix before public disclosure
 
