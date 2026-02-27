@@ -410,7 +410,7 @@ The **[calendar-scheduling](https://github.com/temporal-cortex/skills)** Agent S
 
 ```bash
 # Claude Code
-cp -r temporal-cortex-skill/calendar-scheduling ~/.claude/skills/
+npx skills add temporal-cortex/skills
 ```
 
 The skill follows the [Agent Skills specification](https://agentskills.io/specification) and works with Claude Code, OpenAI Codex, Google Gemini, GitHub Copilot, Cursor, and 20+ other platforms.

@@ -162,7 +162,7 @@ The **[calendar-scheduling](https://github.com/temporal-cortex/skills)** Agent S
 
 ```bash
 # Claude Code
-cp -r temporal-cortex-skill/calendar-scheduling ~/.claude/skills/
+npx skills add temporal-cortex/skills
 ```
 
 The skill is optional but recommended. It follows the [Agent Skills specification](https://agentskills.io/specification) and works with 26+ AI platforms.
