@@ -15,7 +15,7 @@ Temporal Cortex is a Model Context Protocol server that gives AI agents determin
 
 ## Why do AI agents fail at calendar tasks?
 
-LLMs get date and time tasks wrong roughly 60% of the time ([AuthenHallu benchmark](https://arxiv.org/abs/2510.10539)). Ask "What time is it?" and the model hallucinates. Ask "Schedule for next Tuesday at 2pm" and it picks the wrong Tuesday. Ask "Am I free at 3pm?" and it checks the wrong timezone. Then it double-books your calendar.
+Even the latest LLMs — GPT-5, Claude, Gemini — score below 50% on temporal reasoning tasks ([OOLONG benchmark](https://arxiv.org/abs/2511.02817)). Earlier models scored as low as 29% on scheduling and 13% on duration calculations ([Test of Time, ICLR 2025](https://arxiv.org/abs/2406.09170)). Ask "Schedule for next Tuesday at 2pm" and it picks the wrong Tuesday. Ask "Am I free at 3pm?" and it checks the wrong timezone. Then it double-books your calendar.
 
 Most Calendar MCP servers are thin CRUD wrappers that pass these failures through to a single calendar provider — no temporal awareness, no conflict detection, no safety net.
 
@@ -384,9 +384,9 @@ All temporal tools are DST-aware. `adjust_timestamp` with "+1d" across a spring-
 
 Local Mode (default) runs on your machine with in-memory locking, local file credential storage, and no infrastructure required — all 12 tools work with zero setup. Platform Mode (at mcp.temporal-cortex.com) adds managed OAuth lifecycle, multi-agent coordination with distributed locking, usage metering, caller-based policies, a content firewall, and a dashboard UI. Both expose the same 12 tools and 4 layers — the Platform adds safety, coordination, and visibility for teams.
 
-### How accurate is the 60% hallucination statistic?
+### How bad are LLMs at temporal reasoning?
 
-The figure comes from the AuthenHallu benchmark ([arXiv:2510.10539](https://arxiv.org/abs/2510.10539)), which measures LLM factual accuracy across categories. Date and time tasks showed the lowest accuracy, with models producing incorrect answers approximately 60% of the time. Temporal Cortex replaces LLM inference with deterministic computation for all calendar math.
+Even the latest frontier models — GPT-5, Claude Sonnet 4, Gemini 2.5 Pro — score below 50% on temporal reasoning tasks ([OOLONG benchmark, arXiv:2511.02817](https://arxiv.org/abs/2511.02817)). Earlier models scored as low as 29% on scheduling and 13% on duration calculations ([Test of Time, ICLR 2025, arXiv:2406.09170](https://arxiv.org/abs/2406.09170)). Temporal questions are consistently the most challenging category for LLMs. Temporal Cortex replaces LLM inference with deterministic computation for all calendar math.
 
 ### Is there a managed cloud option?
 
