@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.8] - 2026-03-01
+
+### Changed
+- Version alignment with Skills v0.5.8 (scanner fix: OpenClaw regression on router SKILL.md)
+
 ## [0.5.7] - 2026-03-01
 
 ### Added
