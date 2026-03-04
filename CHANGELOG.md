@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.6.2] - 2026-03-04
+
+### Changed
+- Version alignment with Skills v0.6.2 and Platform v0.6.2 (OpenClaw scanner fix: router SKILL.md restructuring)
+
 ## [0.6.1] - 2026-03-04
 
 ### Changed
@@ -249,6 +254,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - RRULE Challenge CLI command for demonstrating edge case handling
 
 [Unreleased]: https://github.com/temporal-cortex/mcp/compare/v0.6.0...HEAD
+[0.6.2]: https://github.com/temporal-cortex/mcp/compare/v0.6.1...v0.6.2
 [0.6.1]: https://github.com/temporal-cortex/mcp/compare/v0.6.0...v0.6.1
 [0.6.0]: https://github.com/temporal-cortex/mcp/compare/v0.5.9...v0.6.0
 [0.5.9]: https://github.com/temporal-cortex/mcp/compare/v0.5.8...v0.5.9
