@@ -245,6 +245,26 @@ Add to Cursor's MCP settings (`~/.cursor/mcp.json`) using the same format:
 
 All 12 tools and 4 layers work identically. The Platform adds safety, coordination, and visibility infrastructure on top.
 
+### Open Scheduling + Temporal Links
+
+Platform users can enable **Open Scheduling** to make their availability publicly queryable by AI agents and humans — no API key required.
+
+1. Go to **Settings > Scheduling** in the dashboard.
+2. Set a slug (e.g., `billy`) and enable Open Scheduling.
+3. Share your **Temporal Link**: `book.temporal-cortex.com/billy`
+
+**What callers get:**
+
+- **Agent Card** (A2A discovery): `GET /public/{slug}/.well-known/agent-card.json`
+- **Availability** (REST): `GET /public/{slug}/availability?date=2026-03-15`
+- **Booking** (REST): `POST /public/{slug}/book`
+- **A2A JSON-RPC**: `POST /public/{slug}/a2a` with `query_availability` or `book_slot` methods
+- **Identity resolution**: `GET /resolve?identity=email@example.com` resolves to the user's Agent Card
+
+**Human fallback:** The same Temporal Link works in a browser — humans see a booking page with date/time picker and form.
+
+**Viral loop:** Every Agent Card exposes Temporal Cortex to the calling agent's framework. Every booking includes "Powered by Temporal Cortex" in the event description.
+
 ## What tools does Temporal Cortex provide?
 
 Temporal Cortex exposes 12 Model Context Protocol tools organized in 4 layers:
