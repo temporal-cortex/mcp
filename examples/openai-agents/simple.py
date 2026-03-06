@@ -8,7 +8,7 @@ connection server-side — no local MCP process needed.
 
 Prerequisites:
   pip install -r requirements.txt
-  Sign up at app.temporal-cortex.com and generate an API key
+  Sign up at app.temporal-cortex.com, connect a calendar, and generate an API key
 
 Usage:
   cp .env.example .env   # add your API keys

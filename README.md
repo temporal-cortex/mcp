@@ -458,6 +458,32 @@ scheduler = Agent(
 )
 ```
 
+### How do I use Temporal Cortex with OpenAI Agents SDK?
+
+Temporal Cortex works with the [OpenAI Agents SDK](https://openai.github.io/openai-agents-python/) via `HostedMCPTool` — OpenAI handles the MCP connection server-side, no local server needed. See the [OpenAI Agents SDK integration guide](docs/openai-agents-integration.md) and [example code](examples/openai-agents/) for single-agent, multi-agent, and approval workflow examples.
+
+**Quick start:**
+
+```python
+from agents import Agent, HostedMCPTool
+
+agent = Agent(
+    name="Calendar Scheduler",
+    instructions="You schedule meetings using Temporal Cortex calendar tools.",
+    tools=[
+        HostedMCPTool(
+            tool_config={
+                "type": "mcp",
+                "server_label": "temporal-cortex",
+                "server_url": "https://mcp.temporal-cortex.com/mcp",
+                "headers": {"Authorization": "Bearer YOUR_API_KEY"},
+                "require_approval": "never",
+            }
+        ),
+    ],
+)
+```
+
 ### Can I connect multiple calendar providers simultaneously?
 
 Yes. Run the auth flow for each provider (Google, Outlook, CalDAV) separately. The server discovers all configured providers on startup and merges their calendars into a unified availability view. Use provider-prefixed IDs like `google/primary` or `outlook/work` to target specific calendars.

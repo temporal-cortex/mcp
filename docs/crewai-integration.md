@@ -80,7 +80,7 @@ crew = Crew(agents=[scheduler], tasks=[task], process=Process.sequential, verbos
 result = crew.kickoff()
 ```
 
-CrewAI auto-discovers all 12 Temporal Cortex tools from the MCP server. The agent's backstory guides it to call tools in the correct order.
+CrewAI auto-discovers all 15 Temporal Cortex tools from the MCP server. The agent's backstory guides it to call tools in the correct order.
 
 ## Option 2: MCPServerAdapter (Multi-Agent)
 

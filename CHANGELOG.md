@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **examples**: OpenAI Agents SDK integration with 3 examples (`examples/openai-agents/`): single-agent (`simple.py`), multi-agent hub-and-spoke (`multi_agent.py`), and approval workflow (`human_in_the_loop.py`)
+- **docs**: OpenAI Agents SDK integration guide (`docs/openai-agents-integration.md`)
+- **docs**: OpenAI Agents SDK FAQ entry in README
+- **docs**: Jupyter notebook for OpenAI Cookbook PR candidate (`examples/openai-agents/deterministic_calendar_scheduling_with_mcp.ipynb`)
+- **agents**: Added `AGENTS.md` for AI coding agent guidance (project structure, conventions, boundaries)
+
 ### Fixed
 - **docs**: Updated stale "4 layers" → "5 layers" and "12 tools" → "15 tools" references across README, llms-install.md, and docs guides
 - **docs**: Added Layer 0 (Discovery) to llms-install.md; split combined "Layer 3-4" into separate sections with all Open Scheduling tools
