@@ -243,7 +243,7 @@ Add to Cursor's MCP settings (`~/.cursor/mcp.json`) using the same format:
 - **Content firewall** -- automatic prompt injection detection and zero-width Unicode stripping.
 - **Caller-based policies** -- enforce booking rules per agent (max duration, allowed hours, booking limits).
 
-All 12 core tools and 4 layers work identically. The Platform adds safety, coordination, and visibility infrastructure on top, plus 3 additional Open Scheduling tools (see below).
+All 12 core tools and 5 layers work identically. The Platform adds safety, coordination, and visibility infrastructure on top, plus 3 additional Open Scheduling tools (see below).
 
 ### Open Scheduling + Temporal Links
 
@@ -476,7 +476,7 @@ All temporal tools are DST-aware. `adjust_timestamp` with "+1d" across a spring-
 
 ### What is the difference between Local Mode and Platform Mode?
 
-Local Mode (default) runs on your machine with in-memory locking, local file credential storage, and no infrastructure required — all 12 core tools work with zero setup. Platform Mode (at mcp.temporal-cortex.com) adds managed OAuth lifecycle, multi-agent coordination with distributed locking, usage metering, caller-based policies, a content firewall, a dashboard UI, and 3 additional Open Scheduling tools (`resolve_identity`, `query_public_availability`, `request_booking`). Both expose the same 12 core tools and 4 layers — the Platform adds safety, coordination, visibility, and up to 15 tools total for teams.
+Local Mode (default) runs on your machine with in-memory locking, local file credential storage, and no infrastructure required — all 12 core tools work with zero setup. Platform Mode (at mcp.temporal-cortex.com) adds managed OAuth lifecycle, multi-agent coordination with distributed locking, usage metering, caller-based policies, a content firewall, a dashboard UI, and 3 additional Open Scheduling tools (`resolve_identity`, `query_public_availability`, `request_booking`). Both expose the same 12 core tools and 5 layers — the Platform adds safety, coordination, visibility, and up to 15 tools total for teams.
 
 ### How bad are LLMs at temporal reasoning?
 

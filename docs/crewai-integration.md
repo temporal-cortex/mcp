@@ -168,7 +168,7 @@ temporal_cortex = MCPServerStdio(
 )
 ```
 
-- 12 tools available (Layers 1-4)
+- Up to 15 tools available (Layers 0-4)
 - Requires Node.js 18+ and local OAuth credentials
 - In-memory locking (single-process safety)
 

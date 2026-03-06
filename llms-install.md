@@ -121,7 +121,13 @@ After configuration, restart your MCP client and ask:
 
 The AI should use the `list_calendars` tool and return your connected calendars with provider-prefixed IDs.
 
-## Available Tools (12)
+## Available Tools (up to 15)
+
+**Layer 0 — Discovery** (Platform Mode only):
+
+| Tool | Purpose |
+|------|---------|
+| `resolve_identity` | Resolve email/slug/URL to a Temporal Cortex scheduling endpoint |
 
 **Layer 1 — Temporal Context** (call `get_temporal_context` first):
 
@@ -143,12 +149,19 @@ The AI should use the `list_calendars` tool and return your connected calendars 
 | `expand_rrule` | Expand recurrence rules into instances |
 | `check_availability` | Check if a time slot is free |
 
-**Layer 3-4 — Availability & Booking**:
+**Layer 3 — Availability**:
 
 | Tool | Purpose |
 |------|---------|
 | `get_availability` | Merged availability across calendars (TOON default) |
+| `query_public_availability` | Query another user's public availability by slug (Platform Mode) |
+
+**Layer 4 — Booking**:
+
+| Tool | Purpose |
+|------|---------|
 | `book_slot` | Book a slot with conflict prevention |
+| `request_booking` | Request booking on another user's public calendar (Platform Mode) |
 
 ## Troubleshooting
 
