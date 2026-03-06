@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.7.5] - 2026-03-06
+
+### Security
+- **Dockerfile**: Container now runs as non-root user (`cortex`, UID 1000) instead of root
+
+### Changed
+- Version alignment with Platform v0.7.5 and Skills v0.7.5 (cross-repo robustness audit: rate limiter fixes, A2A rate limiting, OAuth error handling, dashboard timezone support)
+
 ## [0.7.4] - 2026-03-05
 
 ### Changed

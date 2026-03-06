@@ -10,4 +10,6 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/*
 COPY --from=build /usr/local/lib/node_modules/@temporal-cortex/cortex-mcp/node_modules/@temporal-cortex/ /opt/cortex/
 RUN find /opt/cortex -name cortex-mcp -type f -executable -exec cp {} /usr/local/bin/cortex-mcp \;
+RUN useradd -r -u 1000 cortex
+USER cortex
 ENTRYPOINT ["cortex-mcp"]
