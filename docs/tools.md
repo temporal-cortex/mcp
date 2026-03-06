@@ -1,6 +1,6 @@
 # Tool Reference
 
-Complete reference for the 12 MCP tools provided by `@temporal-cortex/cortex-mcp`.
+Complete reference for the up to 15 MCP tools provided by `@temporal-cortex/cortex-mcp`. The 12 core tools are always available; 3 additional Open Scheduling tools are available in Platform Mode.
 
 All datetime parameters use [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339) format (e.g., `2026-03-15T14:00:00Z` or `2026-03-15T10:00:00-04:00`).
 
@@ -24,10 +24,14 @@ These tools are available over both **stdio** (default) and **streamable HTTP** 
 | `expand_rrule` | true | false | true | false |
 | `check_availability` | true | false | true | true |
 | `get_availability` | true | false | true | true |
+| `resolve_identity` | true | false | true | true |
+| `query_public_availability` | true | false | true | true |
+| `request_booking` | **false** | false | **false** | true |
 
-- **`book_slot`** is the only tool that modifies external state (creates calendar events). It is not idempotent — calling it twice with the same parameters creates two events. It is not destructive — it never deletes or overwrites existing events.
+- **`book_slot`** and **`request_booking`** are the tools that modify external state (create calendar events). They are not idempotent — calling them twice with the same parameters creates two events. They are not destructive — they never delete or overwrite existing events.
 - All other tools are read-only and idempotent (safe to retry).
 - Layer 1 temporal tools and `expand_rrule` are closed-world (`openWorldHint: false`) — they perform pure computation without external API calls.
+- The 3 Platform Mode tools (`resolve_identity`, `query_public_availability`, `request_booking`) are only registered when the server runs in Platform Mode. They are not available in Local Mode.
 
 ---
 
@@ -600,5 +604,149 @@ This is the multi-calendar aggregation tool — it combines multiple calendars i
   "calendar_ids": ["work@example.com", "personal@gmail.com"],
   "min_free_slot_minutes": 60,
   "privacy": "full"
+}
+```
+
+---
+
+## Platform Mode — Open Scheduling Tools
+
+The following 3 tools are only available in **Platform Mode** (when the server is connected to the Temporal Cortex Platform). They enable AI agents to discover other users, query their public availability, and request bookings — without requiring the caller to have an API key for the target user.
+
+---
+
+## resolve_identity
+
+Resolve an identity (email address, slug, or URL) to a Temporal Cortex user's Open Scheduling profile. Use this to discover whether someone has Open Scheduling enabled before querying their availability.
+
+**Platform Mode only.**
+
+### Parameters
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `identity` | string | Yes | The identity to resolve — an email address, slug, or Temporal Link URL (e.g., `"alice@example.com"`, `"alice"`, `"book.temporal-cortex.com/alice"`) |
+
+### Output
+
+```json
+{
+  "found": true,
+  "slug": "alice",
+  "display_name": "Alice Johnson",
+  "open_scheduling_enabled": true
+}
+```
+
+- `found: false` means no Temporal Cortex user matches the given identity.
+- `open_scheduling_enabled: false` means the user exists but has not enabled Open Scheduling — availability and booking are not publicly queryable.
+
+### Example
+
+> "Can I schedule a meeting with alice@example.com?"
+
+```json
+{
+  "identity": "alice@example.com"
+}
+```
+
+---
+
+## query_public_availability
+
+Query another user's public availability by slug. Returns available time slots for a given date and duration. No API key for the target user is required — the target must have Open Scheduling enabled.
+
+**Platform Mode only.**
+
+### Parameters
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `slug` | string | Yes | The target user's slug (e.g., `"alice"`) |
+| `date` | string | Yes | The date to query (ISO 8601 date, e.g., `"2026-03-15"`) |
+| `duration_minutes` | integer | No | Desired meeting duration in minutes (default: 30) |
+| `timezone` | string | No | IANA timezone for the response (e.g., `"America/New_York"`). Defaults to the target user's configured timezone. |
+
+### Output
+
+```json
+{
+  "slug": "alice",
+  "date": "2026-03-15",
+  "timezone": "America/New_York",
+  "slots": [
+    {
+      "start": "2026-03-15T09:00:00-04:00",
+      "end": "2026-03-15T09:30:00-04:00"
+    },
+    {
+      "start": "2026-03-15T10:00:00-04:00",
+      "end": "2026-03-15T10:30:00-04:00"
+    }
+  ]
+}
+```
+
+### Example
+
+> "When is Alice free next Monday for a 1-hour meeting?"
+
+```json
+{
+  "slug": "alice",
+  "date": "2026-03-16",
+  "duration_minutes": 60,
+  "timezone": "America/New_York"
+}
+```
+
+---
+
+## request_booking
+
+Request a booking on another user's public calendar by slug. Creates a calendar event on the target user's behalf. The target must have Open Scheduling enabled. This tool is not idempotent — calling it twice creates two separate bookings.
+
+**Platform Mode only.**
+
+### Parameters
+
+| Name | Type | Required | Description |
+|------|------|----------|-------------|
+| `slug` | string | Yes | The target user's slug (e.g., `"alice"`) |
+| `start` | string | Yes | Start time (RFC 3339) |
+| `end` | string | Yes | End time (RFC 3339) |
+| `title` | string | Yes | Event title |
+| `attendee_email` | string | Yes | Email address of the person requesting the booking |
+| `attendee_name` | string | No | Display name of the person requesting the booking |
+| `description` | string | No | Event description |
+
+### Output
+
+```json
+{
+  "booking_id": "b1234567-89ab-cdef-0123-456789abcdef",
+  "status": "confirmed",
+  "calendar_event": {
+    "id": "evt_abc123",
+    "summary": "Meeting with Bob",
+    "start": "2026-03-16T14:00:00-04:00",
+    "end": "2026-03-16T14:30:00-04:00"
+  }
+}
+```
+
+### Example
+
+> "Book a 30-minute meeting with Alice next Monday at 2pm"
+
+```json
+{
+  "slug": "alice",
+  "start": "2026-03-16T14:00:00-04:00",
+  "end": "2026-03-16T14:30:00-04:00",
+  "title": "Meeting with Bob",
+  "attendee_email": "bob@example.com",
+  "attendee_name": "Bob Smith"
 }
 ```

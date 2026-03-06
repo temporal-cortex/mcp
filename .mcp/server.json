@@ -1,18 +1,18 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json",
   "name": "io.github.temporal-cortex/mcp",
-  "description": "12 deterministic calendar tools — temporal context, scheduling, availability, and booking",
+  "description": "Up to 15 deterministic calendar tools — temporal context, availability, and booking",
   "title": "Temporal Cortex Calendar MCP",
   "repository": {
     "url": "https://github.com/temporal-cortex/mcp",
     "source": "github"
   },
-  "version": "0.7.4",
+  "version": "0.7.5",
   "packages": [
     {
       "registryType": "npm",
       "identifier": "@temporal-cortex/cortex-mcp",
-      "version": "0.7.4",
+      "version": "0.7.5",
       "transport": {
         "type": "stdio"
       },

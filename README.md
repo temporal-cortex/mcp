@@ -6,7 +6,7 @@
 [![Smithery](https://smithery.ai/badge/@temporal-cortex/cortex-mcp)](https://smithery.ai/server/@temporal-cortex/cortex-mcp)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-**v0.7.4** · March 2026 · [Changelog](CHANGELOG.md) · **Website:** [temporal-cortex.com](https://temporal-cortex.com)
+**v0.7.5** · March 2026 · [Changelog](CHANGELOG.md) · **Website:** [temporal-cortex.com](https://temporal-cortex.com)
 
 Temporal Cortex is a Model Context Protocol server that gives AI agents deterministic calendar capabilities — temporal context, datetime resolution, multi-calendar availability merging across Google Calendar, Microsoft Outlook, and CalDAV, and conflict-free booking with Two-Phase Commit. Powered by [Truth Engine](https://github.com/temporal-cortex/core). Install: `npx @temporal-cortex/cortex-mcp`.
 
@@ -134,7 +134,7 @@ SHA256 checksums are published with every [GitHub Release](https://github.com/te
 
 ```bash
 # Download the published checksums
-curl -sL https://github.com/temporal-cortex/mcp/releases/download/mcp-v0.7.4/SHA256SUMS.txt
+curl -sL https://github.com/temporal-cortex/mcp/releases/download/mcp-v0.7.5/SHA256SUMS.txt
 
 # Compare against your installed binary
 sha256sum "$(dirname "$(which cortex-mcp)")/../cortex-mcp" 2>/dev/null || \
@@ -243,7 +243,7 @@ Add to Cursor's MCP settings (`~/.cursor/mcp.json`) using the same format:
 - **Content firewall** -- automatic prompt injection detection and zero-width Unicode stripping.
 - **Caller-based policies** -- enforce booking rules per agent (max duration, allowed hours, booking limits).
 
-All 12 tools and 4 layers work identically. The Platform adds safety, coordination, and visibility infrastructure on top.
+All 12 core tools and 4 layers work identically. The Platform adds safety, coordination, and visibility infrastructure on top, plus 3 additional Open Scheduling tools (see below).
 
 ### Open Scheduling + Temporal Links
 
@@ -267,7 +267,13 @@ Platform users can enable **Open Scheduling** to make their availability publicl
 
 ## What tools does Temporal Cortex provide?
 
-Temporal Cortex exposes 12 Model Context Protocol tools organized in 4 layers:
+Temporal Cortex exposes up to 15 Model Context Protocol tools organized in 5 layers. The 12 core tools are always available; 3 additional Open Scheduling tools are available in Platform Mode.
+
+### Layer 0 — Discovery (Platform Mode)
+
+| Tool | Description |
+|------|-------------|
+| `resolve_identity` | Resolves an identity (email, slug, or URL) to a Temporal Cortex user's Agent Card — returns slug, display name, and Open Scheduling status. Platform Mode only. |
 
 ### Layer 1 — Temporal Context
 
@@ -294,12 +300,14 @@ Temporal Cortex exposes 12 Model Context Protocol tools organized in 4 layers:
 | Tool | Description |
 |------|-------------|
 | `get_availability` | Merges free/busy data across multiple calendars into a single unified view with configurable privacy levels (Opaque or Full). TOON output by default. |
+| `query_public_availability` | Queries another user's public availability by slug — returns available time slots for a given date and duration. No API key required. Platform Mode only. |
 
 ### Layer 4 — Booking
 
 | Tool | Description |
 |------|-------------|
 | `book_slot` | Books a calendar slot using Two-Phase Commit: acquires a time-range lock, verifies no conflicts exist, writes the event, then releases the lock. |
+| `request_booking` | Requests a booking on another user's public calendar by slug — creates a calendar event on their behalf with attendee and title information. Platform Mode only. |
 
 See [docs/tools.md](docs/tools.md) for full input/output schemas and usage examples.
 
@@ -428,7 +436,7 @@ All temporal tools are DST-aware. `adjust_timestamp` with "+1d" across a spring-
 
 ### What is the difference between Local Mode and Platform Mode?
 
-Local Mode (default) runs on your machine with in-memory locking, local file credential storage, and no infrastructure required — all 12 tools work with zero setup. Platform Mode (at mcp.temporal-cortex.com) adds managed OAuth lifecycle, multi-agent coordination with distributed locking, usage metering, caller-based policies, a content firewall, and a dashboard UI. Both expose the same 12 tools and 4 layers — the Platform adds safety, coordination, and visibility for teams.
+Local Mode (default) runs on your machine with in-memory locking, local file credential storage, and no infrastructure required — all 12 core tools work with zero setup. Platform Mode (at mcp.temporal-cortex.com) adds managed OAuth lifecycle, multi-agent coordination with distributed locking, usage metering, caller-based policies, a content firewall, a dashboard UI, and 3 additional Open Scheduling tools (`resolve_identity`, `query_public_availability`, `request_booking`). Both expose the same 12 core tools and 4 layers — the Platform adds safety, coordination, visibility, and up to 15 tools total for teams.
 
 ### How bad are LLMs at temporal reasoning?
 

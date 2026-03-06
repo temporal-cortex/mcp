@@ -9,10 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [0.7.5] - 2026-03-06
 
+### Added
+- **docs**: 3 new Open Scheduling tools — `resolve_identity` (Layer 0 Discovery), `query_public_availability` (Layer 3), `request_booking` (Layer 4). Platform Mode only.
+- **docs**: New `schedule_with_someone` prompt for guided Open Scheduling workflow (5th prompt)
+- **docs**: New `cortex://config/booking-rules` resource exposing booking rules to agents (3rd resource)
+- **docs**: `location` parameter on `book_slot`, `query` parameter on `list_events`, `working_hours_only` parameter on `get_availability`
+
 ### Security
 - **Dockerfile**: Container now runs as non-root user (`cortex`, UID 1000) instead of root
 
 ### Changed
+- Tool count increased from 12 to up to 15 (12 core + 3 Open Scheduling in Platform Mode)
+- Prompt count increased from 4 to 5; resource count increased from 2 to 3
 - Version alignment with Platform v0.7.5 and Skills v0.7.5 (cross-repo robustness audit: rate limiter fixes, A2A rate limiting, OAuth error handling, dashboard timezone support)
 
 ## [0.7.4] - 2026-03-05
@@ -282,7 +290,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Deterministic RRULE expansion via Truth Engine (DST-aware, BYSETPOS, leap years)
 - RRULE Challenge CLI command for demonstrating edge case handling
 
-[Unreleased]: https://github.com/temporal-cortex/mcp/compare/v0.7.1...HEAD
+[Unreleased]: https://github.com/temporal-cortex/mcp/compare/v0.7.5...HEAD
+[0.7.5]: https://github.com/temporal-cortex/mcp/compare/v0.7.4...v0.7.5
+[0.7.4]: https://github.com/temporal-cortex/mcp/compare/v0.7.1...v0.7.4
 [0.7.1]: https://github.com/temporal-cortex/mcp/compare/v0.7.0...v0.7.1
 [0.7.0]: https://github.com/temporal-cortex/mcp/compare/v0.6.2...v0.7.0
 [0.6.2]: https://github.com/temporal-cortex/mcp/compare/v0.6.1...v0.6.2
