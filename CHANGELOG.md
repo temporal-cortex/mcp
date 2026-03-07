@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **examples**: LangGraph integration with 4 examples (`examples/langgraph/`): ReAct agent (`simple.py`), Platform Mode (`simple_platform.py`), multi-agent StateGraph (`multi_agent.py`), and human-in-the-loop booking approval (`human_in_the_loop.py`)
+- **docs**: LangGraph integration guide (`docs/langgraph-integration.md`)
+- **docs**: LangGraph FAQ entry in README with quick-start code for stdio and Platform Mode
+- **docs**: Jupyter notebook for LangGraph calendar scheduling (`examples/langgraph/deterministic_calendar_scheduling_with_mcp.ipynb`)
+- **hub**: Published scheduling agent prompt to LangSmith Hub at `temporal-cortex/calendar-scheduling-agent`
 - **examples**: OpenAI Agents SDK integration with 3 examples (`examples/openai-agents/`): single-agent (`simple.py`), multi-agent hub-and-spoke (`multi_agent.py`), and approval workflow (`human_in_the_loop.py`)
 - **docs**: OpenAI Agents SDK integration guide (`docs/openai-agents-integration.md`)
 - **docs**: OpenAI Agents SDK FAQ entry in README

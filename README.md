@@ -458,6 +458,49 @@ scheduler = Agent(
 )
 ```
 
+### How do I use Temporal Cortex with LangGraph?
+
+Temporal Cortex works with [LangGraph](https://langchain-ai.github.io/langgraph/) via `langchain-mcp-adapters` — the adapter auto-discovers all MCP tools and converts them into LangChain-compatible `StructuredTool` objects. See the [LangGraph integration guide](docs/langgraph-integration.md) and [example code](examples/langgraph/) for ReAct agent, multi-agent StateGraph, and human-in-the-loop examples.
+
+**Quick start (ReAct agent):**
+
+```python
+from langchain_anthropic import ChatAnthropic
+from langchain_mcp_adapters.client import MultiServerMCPClient
+from langgraph.prebuilt import create_react_agent
+
+model = ChatAnthropic(model="claude-sonnet-4-6")
+
+async with MultiServerMCPClient(
+    {
+        "temporal-cortex": {
+            "command": "npx",
+            "args": ["-y", "@temporal-cortex/cortex-mcp"],
+            "env": {"TIMEZONE": "America/New_York"},
+            "transport": "stdio",
+        }
+    }
+) as client:
+    tools = client.get_tools()
+    agent = create_react_agent(model, tools)
+```
+
+**Platform Mode (HTTP — no local server):**
+
+```python
+async with MultiServerMCPClient(
+    {
+        "temporal-cortex": {
+            "url": "https://mcp.temporal-cortex.com/mcp",
+            "headers": {"Authorization": "Bearer YOUR_API_KEY"},
+            "transport": "streamable_http",
+        }
+    }
+) as client:
+    tools = client.get_tools()
+    agent = create_react_agent(model, tools)
+```
+
 ### How do I use Temporal Cortex with OpenAI Agents SDK?
 
 Temporal Cortex works with the [OpenAI Agents SDK](https://openai.github.io/openai-agents-python/) via `HostedMCPTool` — OpenAI handles the MCP connection server-side, no local server needed. See the [OpenAI Agents SDK integration guide](docs/openai-agents-integration.md) and [example code](examples/openai-agents/) for single-agent, multi-agent, and approval workflow examples.
