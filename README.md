@@ -8,7 +8,7 @@
 
 **v0.8.1** · March 2026 · [Changelog](CHANGELOG.md) · **Website:** [temporal-cortex.com](https://temporal-cortex.com)
 
-Temporal Cortex is a Model Context Protocol server that gives AI agents deterministic calendar capabilities — temporal context, datetime resolution, multi-calendar availability merging across Google Calendar, Microsoft Outlook, and CalDAV, and conflict-free booking with Two-Phase Commit. Powered by [Truth Engine](https://github.com/temporal-cortex/core). Install: `npx @temporal-cortex/cortex-mcp`.
+Temporal Cortex is an MCP server that lets AI agents schedule meetings with anyone — whether the other person has an AI agent or not, uses Google Calendar or Outlook, or responds instantly or days later. 18 tools across 5 layers handle contact resolution, temporal reasoning, cross-provider availability, and atomic booking. Powered by [Truth Engine](https://github.com/temporal-cortex/core). Install: `npx @temporal-cortex/cortex-mcp`.
 
 <a href="https://insiders.vscode.dev/redirect/mcp/install?name=temporal-cortex-mcp&inputs=%7B%22google_client_id%22%3A%22%22%2C%22google_client_secret%22%3A%22%22%7D&config=%7B%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22%40temporal-cortex%2Fcortex-mcp%22%5D%2C%22env%22%3A%7B%22GOOGLE_CLIENT_ID%22%3A%22%24%7Binput%3Agoogle_client_id%7D%22%2C%22GOOGLE_CLIENT_SECRET%22%3A%22%24%7Binput%3Agoogle_client_secret%7D%22%7D%7D"><img src="https://img.shields.io/badge/VS_Code-Install_MCP_Server-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white" alt="Install in VS Code"></a>
 <a href="https://cursor.com/install-mcp?name=temporal-cortex&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIkB0ZW1wb3JhbC1jb3J0ZXgvY29ydGV4LW1jcCJdLCJlbnYiOnsiR09PR0xFX0NMSUVOVF9JRCI6InlvdXItY2xpZW50LWlkLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiR09PR0xFX0NMSUVOVF9TRUNSRVQiOiJ5b3VyLWNsaWVudC1zZWNyZXQifX0%3D"><img src="https://img.shields.io/badge/Cursor-Install_MCP_Server-black?style=flat-square&logo=cursor&logoColor=white" alt="Install in Cursor"></a>
@@ -243,7 +243,7 @@ Add to Cursor's MCP settings (`~/.cursor/mcp.json`) using the same format:
 - **Content firewall** -- automatic prompt injection detection and zero-width Unicode stripping.
 - **Caller-based policies** -- enforce booking rules per agent (max duration, allowed hours, booking limits).
 
-All 12 core tools and 5 layers work identically. The Platform adds safety, coordination, and visibility infrastructure on top, plus 3 additional Open Scheduling tools (see below).
+All 15 core tools and 5 layers work identically. The Platform adds safety, coordination, and visibility infrastructure on top, plus 3 additional Open Scheduling tools (see below).
 
 ### Open Scheduling + Temporal Links
 
@@ -267,13 +267,15 @@ Platform users can enable **Open Scheduling** to make their availability publicl
 
 ## What tools does Temporal Cortex provide?
 
-Temporal Cortex exposes up to 15 Model Context Protocol tools organized in 5 layers. The 12 core tools are always available; 3 additional Open Scheduling tools are available in Platform Mode.
+Temporal Cortex exposes up to 18 Model Context Protocol tools organized in 5 layers. The 15 core tools are always available; 3 additional Open Scheduling tools are available in Platform Mode.
 
-### Layer 0 — Discovery (Platform Mode)
+### Layer 0 — Discovery
 
 | Tool | Description |
 |------|-------------|
 | `resolve_identity` | Resolves an identity (email, slug, or URL) to a Temporal Cortex user's Agent Card — returns slug, display name, and Open Scheduling status. Platform Mode only. |
+| `search_contacts` | Searches the user's address book by name (Google People API, Microsoft Graph). Returns matching contacts with emails, phones, organization, and job title. Opt-in — requires contacts permission. |
+| `resolve_contact` | Given a confirmed contact's email, determines the best scheduling path: Open Scheduling (instant booking), email, or phone. Chains with `resolve_identity` when Platform API is available. |
 
 ### Layer 1 — Temporal Context
 
@@ -308,6 +310,7 @@ Temporal Cortex exposes up to 15 Model Context Protocol tools organized in 5 lay
 |------|-------------|
 | `book_slot` | Books a calendar slot using Two-Phase Commit: acquires a time-range lock, verifies no conflicts exist, writes the event, then releases the lock. |
 | `request_booking` | Requests a booking on another user's public calendar by slug — creates a calendar event on their behalf with attendee and title information. Platform Mode only. |
+| `compose_proposal` | Composes a scheduling proposal message for email, Slack, or SMS with proposed time slots formatted in the recipient's timezone. Includes optional Temporal Link self-serve booking URL. Does NOT send — returns formatted text for the agent to send via its channel MCP. |
 
 See [docs/tools.md](docs/tools.md) for full input/output schemas and usage examples.
 
@@ -545,7 +548,7 @@ All temporal tools are DST-aware. `adjust_timestamp` with "+1d" across a spring-
 
 ### What is the difference between Local Mode and Platform Mode?
 
-Local Mode (default) runs on your machine with in-memory locking, local file credential storage, and no infrastructure required — all 12 core tools work with zero setup. Platform Mode (at mcp.temporal-cortex.com) adds managed OAuth lifecycle, multi-agent coordination with distributed locking, usage metering, caller-based policies, a content firewall, a dashboard UI, and 3 additional Open Scheduling tools (`resolve_identity`, `query_public_availability`, `request_booking`). Both expose the same 12 core tools and 5 layers — the Platform adds safety, coordination, visibility, and up to 15 tools total for teams.
+Local Mode (default) runs on your machine with in-memory locking, local file credential storage, and no infrastructure required — all 15 core tools work with zero setup (contact tools require opt-in contacts permission). Platform Mode (at mcp.temporal-cortex.com) adds managed OAuth lifecycle, multi-agent coordination with distributed locking, usage metering, caller-based policies, a content firewall, a dashboard UI, and 3 additional Open Scheduling tools (`resolve_identity`, `query_public_availability`, `request_booking`). Both expose the same 15 core tools and 5 layers — the Platform adds safety, coordination, visibility, and up to 18 tools total for teams.
 
 ### How bad are LLMs at temporal reasoning?
 

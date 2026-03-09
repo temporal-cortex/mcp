@@ -1,7 +1,7 @@
 {
   "$schema": "https://glama.ai/mcp/schemas/server.json",
   "maintainers": ["billylui"],
-  "description": "AI-native calendar middleware for scheduling, availability, and conflict-free booking across Google Calendar, Outlook, and CalDAV. 15 tools across 5 layers: temporal context, calendar operations, multi-calendar availability, open scheduling, and Two-Phase Commit booking.",
+  "description": "AI scheduling that lets agents schedule with anyone — contact resolution, cross-provider availability, and atomic booking across Google Calendar, Outlook, and CalDAV. 18 tools across 5 layers: discovery, temporal context, calendar operations, availability, and Two-Phase Commit booking.",
   "features": {
     "tools": true,
     "resources": true,

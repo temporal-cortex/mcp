@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **docs**: Updated README for v0.9.0 — 18 tools (3 new: `search_contacts`, `resolve_contact`, `compose_proposal`), outcome positioning, expanded tool table
+- **docs**: Updated Glama directory config description for 18 tools
+
 ## [0.8.1] - 2026-03-07
 
 ### Fixed
