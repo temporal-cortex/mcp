@@ -8,7 +8,7 @@
 
 **v0.9.0** · March 2026 · [Changelog](CHANGELOG.md) · **Website:** [temporal-cortex.com](https://temporal-cortex.com)
 
-Temporal Cortex is an MCP server that lets AI agents schedule meetings with anyone — whether the other person has an AI agent or not, uses Google Calendar or Outlook, or responds instantly or days later. 18 tools across 5 layers handle contact resolution, temporal reasoning, cross-provider availability, and atomic booking. Powered by [Truth Engine](https://github.com/temporal-cortex/core). Install: `npx @temporal-cortex/cortex-mcp`.
+Temporal Cortex is open scheduling infrastructure that lets any AI agent schedule reliably — whether the other person has an AI agent or not, uses Google Calendar or Outlook, or responds instantly or days later. 18 tools across 5 layers handle contact resolution, temporal reasoning, cross-provider availability, and atomic booking. Accessible via MCP, A2A, REST, and browser. Powered by [Truth Engine](https://github.com/temporal-cortex/core). Install: `npx @temporal-cortex/cortex-mcp`.
 
 <a href="https://insiders.vscode.dev/redirect/mcp/install?name=temporal-cortex-mcp&inputs=%7B%22google_client_id%22%3A%22%22%2C%22google_client_secret%22%3A%22%22%7D&config=%7B%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22%40temporal-cortex%2Fcortex-mcp%22%5D%2C%22env%22%3A%7B%22GOOGLE_CLIENT_ID%22%3A%22%24%7Binput%3Agoogle_client_id%7D%22%2C%22GOOGLE_CLIENT_SECRET%22%3A%22%24%7Binput%3Agoogle_client_secret%7D%22%7D%7D"><img src="https://img.shields.io/badge/VS_Code-Install_MCP_Server-0098FF?style=flat-square&logo=visualstudiocode&logoColor=white" alt="Install in VS Code"></a>
 <a href="https://cursor.com/install-mcp?name=temporal-cortex&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsIkB0ZW1wb3JhbC1jb3J0ZXgvY29ydGV4LW1jcCJdLCJlbnYiOnsiR09PR0xFX0NMSUVOVF9JRCI6InlvdXItY2xpZW50LWlkLmFwcHMuZ29vZ2xldXNlcmNvbnRlbnQuY29tIiwiR09PR0xFX0NMSUVOVF9TRUNSRVQiOiJ5b3VyLWNsaWVudC1zZWNyZXQifX0%3D"><img src="https://img.shields.io/badge/Cursor-Install_MCP_Server-black?style=flat-square&logo=cursor&logoColor=white" alt="Install in Cursor"></a>
@@ -17,9 +17,9 @@ Temporal Cortex is an MCP server that lets AI agents schedule meetings with anyo
 
 Even the latest LLMs — GPT-5, Claude, Gemini — score below 50% on temporal reasoning tasks ([OOLONG benchmark](https://arxiv.org/abs/2511.02817)). Earlier models scored as low as 29% on scheduling and 13% on duration calculations ([Test of Time, ICLR 2025](https://arxiv.org/abs/2406.09170)). Ask "Schedule for next Tuesday at 2pm" and it picks the wrong Tuesday. Ask "Am I free at 3pm?" and it checks the wrong timezone. Then it double-books your calendar.
 
-Most Calendar MCP servers are thin CRUD wrappers that pass these failures through to a single calendar provider — no temporal awareness, no conflict detection, no safety net.
+Most calendar tools for AI agents are thin CRUD wrappers that pass these failures through to a single calendar provider — no temporal awareness, no conflict detection, no safety net.
 
-## What makes Temporal Cortex different from other calendar MCP servers?
+## What makes Temporal Cortex different?
 
 - **Temporal awareness** — Agents call `get_temporal_context` to know the actual time and timezone. `resolve_datetime` turns `"next Tuesday at 2pm"` into a precise RFC 3339 timestamp. No hallucination.
 - **Atomic booking** — Lock the time slot, verify no conflicts exist, then write. Two agents booking the same 2pm slot? Exactly one succeeds. The other gets a clear error. No double-bookings.
