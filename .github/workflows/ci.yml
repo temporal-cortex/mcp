@@ -18,7 +18,7 @@ jobs:
     name: Check Markdown Links
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - uses: gaurav-nelson/github-action-markdown-link-check@v1
         with:
@@ -30,7 +30,7 @@ jobs:
     name: Validate JSON & YAML
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Validate server.json
         run: python3 -c "import json; json.load(open('.mcp/server.json')); print('✓ .mcp/server.json')"
@@ -53,7 +53,7 @@ jobs:
     name: Check Version Sync
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Extract and compare versions
         run: |
@@ -98,7 +98,7 @@ jobs:
     name: Lint Dockerfile
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Run hadolint
         uses: hadolint/hadolint-action@v3.3.0
